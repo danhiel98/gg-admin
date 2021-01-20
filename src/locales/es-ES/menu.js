@@ -22,7 +22,7 @@ export default {
   'menu.form.step-form.result': 'Formulario por pasos (finalizado)',
   'menu.form.advanced-form': 'Formulario Avanzado',
   'menu.list': 'Lista',
-  'menu.list.table-list': 'Buscar Tabla',
+  'menu.list.table-list': 'Tabla de Búsqueda',
   'menu.list.basic-list': 'Lista Básica',
   'menu.list.card-list': 'Lista en Tarjeta',
   'menu.list.search-list': 'Buscar Lista',

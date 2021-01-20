@@ -15,7 +15,6 @@ export default defineConfig({
 		type: 'browser',
 	},
 	locale: {
-		// default zh-CN
 		default: 'es-ES',
 		antd: true,
 		// default true, when it is true, will use `navigator.language` overwrite default
