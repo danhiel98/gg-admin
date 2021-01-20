@@ -1,3 +1,7 @@
+/**
+ * Este archivo simula los resultados a las peticiones realizadas
+ * @param {*} time
+ */
 const waitTime = (time = 100) => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
@@ -9,10 +13,9 @@ const waitTime = (time = 100) => {
 async function getFakeCaptcha(req, res) {
 	await waitTime(2000);
 	return res.json('captcha-xxx');
-} // 代码中会兼容本地 service mock 以及部署站点的静态数据
+}
 
 export default {
-	// 支持值为 Object 和 Array
 	'GET /api/currentUser': {
 		name: 'Serati Ma',
 		avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
@@ -63,7 +66,7 @@ export default {
 		address: '西湖区工专路 77 号',
 		phone: '0752-268888888',
 	},
-	// GET POST 可省略
+
 	'GET /api/users': [
 		{
 			key: '1',
@@ -84,6 +87,7 @@ export default {
 			address: 'Sidney No. 1 Lake Park',
 		},
 	],
+
 	'POST /api/login/account': async (req, res) => {
 		const { password, userName, type } = req.body;
 		await waitTime(2000);
@@ -121,12 +125,14 @@ export default {
 			currentAuthority: 'guest',
 		});
 	},
+
 	'POST /api/register': (req, res) => {
 		res.send({
 			status: 'ok',
 			currentAuthority: 'user',
 		});
 	},
+
 	'GET /api/500': (req, res) => {
 		res.status(500).send({
 			timestamp: 1513932555104,
@@ -136,6 +142,7 @@ export default {
 			path: '/base/category/list',
 		});
 	},
+
 	'GET /api/404': (req, res) => {
 		res.status(404).send({
 			timestamp: 1513932643431,
@@ -145,6 +152,7 @@ export default {
 			path: '/base/category/list/2121212',
 		});
 	},
+
 	'GET /api/403': (req, res) => {
 		res.status(403).send({
 			timestamp: 1513932555104,
@@ -154,6 +162,7 @@ export default {
 			path: '/base/category/list',
 		});
 	},
+
 	'GET /api/401': (req, res) => {
 		res.status(401).send({
 			timestamp: 1513932555104,
@@ -163,5 +172,6 @@ export default {
 			path: '/base/category/list',
 		});
 	},
-	'GET  /api/login/captcha': getFakeCaptcha,
+
+	'GET /api/login/captcha': getFakeCaptcha,
 };

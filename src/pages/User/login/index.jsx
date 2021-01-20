@@ -1,13 +1,10 @@
 import {
-	AlipayCircleOutlined,
 	LockTwoTone,
 	MailTwoTone,
 	MobileTwoTone,
-	TaobaoCircleOutlined,
 	UserOutlined,
-	WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, Space, message, Tabs } from 'antd';
+import { Alert, message } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, connect, FormattedMessage } from 'umi';
@@ -33,6 +30,7 @@ const Login = (props) => {
 
 	const handleSubmit = (values) => {
 		const { dispatch } = props;
+
 		dispatch({
 			type: 'login/login',
 			payload: { ...values, type },
