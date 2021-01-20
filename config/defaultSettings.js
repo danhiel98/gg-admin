@@ -1,14 +1,13 @@
 const proSettings = {
-  navTheme: 'dark',
-  // 拂晓蓝
-  primaryColor: '#1890ff',
-  layout: 'side',
-  contentWidth: 'Fluid',
-  fixedHeader: false,
-  fixSiderbar: true,
-  colorWeak: false,
-  title: 'Grupo García',
-  pwa: false,
-  iconfontUrl: '',
+	navTheme: 'dark',
+	primaryColor: '#1890ff',
+	layout: 'side',
+	contentWidth: 'Fluid',
+	fixedHeader: false,
+	fixSiderbar: true,
+	colorWeak: false,
+	title: 'GG',
+	pwa: false,
+	iconfontUrl: '',
 };
 export default proSettings;
