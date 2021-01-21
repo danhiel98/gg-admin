@@ -6,13 +6,13 @@ const UserModel = {
 		currentUser: {},
 	},
 	effects: {
-		*fetch(_, { call, put }) {
-			const response = yield call(queryUsers);
-			yield put({
-				type: 'save',
-				payload: response,
-			});
-		},
+		// *fetch(_, { call, put }) {
+		// 	const response = yield call(queryUsers);
+		// 	yield put({
+		// 		type: 'save',
+		// 		payload: response,
+		// 	});
+		// },
 
 		*fetchCurrent(_, { call, put }) {
 			const response = yield call(queryCurrent);

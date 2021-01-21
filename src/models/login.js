@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { fakeAccountLogin } from '@/services/login';
+import { accountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
@@ -12,7 +12,8 @@ const Model = {
 	},
 	effects: {
 		*login({ payload }, { call, put }) {
-			const response = yield call(fakeAccountLogin, payload);
+			const response = yield call(accountLogin, payload);
+
 			yield put({
 				type: 'changeLoginStatus',
 				payload: response,
@@ -59,7 +60,7 @@ const Model = {
 	reducers: {
 		changeLoginStatus(state, { payload }) {
 			setAuthority(payload.currentAuthority);
-			return { ...state, status: payload.status, type: payload.type };
+			return { ...state, status: payload.status };
 		},
 	},
 };
