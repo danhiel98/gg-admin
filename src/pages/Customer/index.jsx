@@ -7,18 +7,13 @@ import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
-import { queryRule, updateRule, addRule, removeRule } from './service';
-/**
- * 添加节点
- *
- * @param fields
- */
+import { queryCustomer, updateCustomer, addCustomer, removeCustomer } from './service';
 
 const handleAdd = async (fields) => {
-	const hide = message.loading('正在添加');
+	const hide = message.loading('Agregando');
 
 	try {
-		await addRule({ ...fields });
+		await addCustomer({ ...fields });
 		hide();
 		message.success('添加成功');
 		return true;
@@ -38,7 +33,7 @@ const handleUpdate = async (fields) => {
 	const hide = message.loading('正在配置');
 
 	try {
-		await updateRule({
+		await updateCustomer({
 			name: fields.name,
 			desc: fields.desc,
 			key: fields.key,
@@ -63,7 +58,7 @@ const handleRemove = async (selectedRows) => {
 	if (!selectedRows) return true;
 
 	try {
-		await removeRule({
+		await removeCustomer({
 			key: selectedRows.map((row) => row.key),
 		});
 		hide();
@@ -93,7 +88,7 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.updateForm.ruleName.nameLabel"
+					id="pages.searchTable.updateForm.customerName.nameLabel"
 					defaultMessage="规则名称"
 				/>
 			),
@@ -255,7 +250,7 @@ const TableList = () => {
 						<FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
 					</Button>,
 				]}
-				request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+				request={(params, sorter, filter) => queryCustomer({ ...params, sorter, filter })}
 				columns={columns}
 				rowSelection={{
 					onChange: (_, selectedRows) => {
@@ -316,7 +311,7 @@ const TableList = () => {
 			)}
 			<ModalForm
 				title={intl.formatMessage({
-					id: 'pages.searchTable.createForm.newRule',
+					id: 'pages.searchTable.createForm.newCustomer',
 					defaultMessage: '新建规则',
 				})}
 				width="400px"
@@ -335,12 +330,12 @@ const TableList = () => {
 				}}
 			>
 				<ProFormText
-					rules={[
+					Customers={[
 						{
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.ruleName"
+									id="pages.searchTable.customerName"
 									defaultMessage="规则名称为必填项"
 								/>
 							),

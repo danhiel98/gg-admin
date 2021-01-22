@@ -32,7 +32,7 @@ const genList = (current, pageSize) => {
 
 let tableListDataSource = genList(1, 100);
 
-function getRule(req, res, u) {
+function getCustomer(req, res, u) {
 	let realUrl = u;
 
 	if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -102,7 +102,7 @@ function getRule(req, res, u) {
 	return res.json(result);
 }
 
-function postRule(req, res, u, b) {
+function postCustomer(req, res, u, b) {
 	let realUrl = u;
 
 	if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
@@ -123,7 +123,7 @@ function postRule(req, res, u, b) {
 		case 'post':
 			(() => {
 				const i = Math.ceil(Math.random() * 10000);
-				const newRule = {
+				const newCustomer = {
 					key: tableListDataSource.length,
 					href: 'https://ant.design',
 					avatar: [
@@ -139,24 +139,24 @@ function postRule(req, res, u, b) {
 					createdAt: new Date(),
 					progress: Math.ceil(Math.random() * 100),
 				};
-				tableListDataSource.unshift(newRule);
-				return res.json(newRule);
+				tableListDataSource.unshift(newCustomer);
+				return res.json(newCustomer);
 			})();
 
 			return;
 
 		case 'update':
 			(() => {
-				let newRule = {};
+				let newCustomer = {};
 				tableListDataSource = tableListDataSource.map((item) => {
 					if (item.key === key) {
-						newRule = { ...item, desc, name };
+						newCustomer = { ...item, desc, name };
 						return { ...item, desc, name };
 					}
 
 					return item;
 				});
-				return res.json(newRule);
+				return res.json(newCustomer);
 			})();
 
 			return;
@@ -175,6 +175,6 @@ function postRule(req, res, u, b) {
 }
 
 export default {
-	'GET /api/rule': getRule,
-	'POST /api/rule': postRule,
+	'GET /api/customer': getCustomer,
+	'POST /api/customer': postCustomer,
 };

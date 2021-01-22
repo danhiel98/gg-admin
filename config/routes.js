@@ -33,22 +33,22 @@ export default [
 								icon: 'home',
 								component: './Home',
 							},
-							{
-								path: '/admin',
-								name: 'admin',
-								icon: 'crown',
-								component: './Admin',
-								authority: ['admin'],
-								routes: [
-									{
-										path: '/admin/sub-page',
-										name: 'sub-page',
-										icon: 'smile',
-										component: './Home',
-										authority: ['admin'],
-									},
-								],
-							},
+							// {
+							// 	path: '/admin',
+							// 	name: 'admin',
+							// 	icon: 'crown',
+							// 	component: './Admin',
+							// 	authority: ['admin'],
+							// 	routes: [
+							// 		{
+							// 			path: '/admin/sub-page',
+							// 			name: 'sub-page',
+							// 			icon: 'smile',
+							// 			component: './Home',
+							// 			authority: ['admin'],
+							// 		},
+							// 	],
+							// },
 							{
 								name: 'orders',
 								icon: 'snippets',

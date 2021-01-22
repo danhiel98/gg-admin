@@ -93,7 +93,7 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.updateForm.ruleName.nameLabel"
+					id="pages.searchTable.updateForm.customerName.nameLabel"
 					defaultMessage="规则名称"
 				/>
 			),
@@ -340,7 +340,7 @@ const TableList = () => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.ruleName"
+									id="pages.searchTable.customerName"
 									defaultMessage="规则名称为必填项"
 								/>
 							),

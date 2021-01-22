@@ -26,7 +26,7 @@ const UpdateForm = (props) => {
 						}}
 						destroyOnClose
 						title={intl.formatMessage({
-							id: 'pages.searchTable.updateForm.ruleConfig',
+							id: 'pages.searchTable.updateForm.customerConfig',
 							defaultMessage: '规则配置',
 						})}
 						visible={props.updateModalVisible}
@@ -54,7 +54,7 @@ const UpdateForm = (props) => {
 				<ProFormText
 					name="name"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.ruleName.nameLabel',
+						id: 'pages.searchTable.updateForm.customerName.nameLabel',
 						defaultMessage: '规则名称',
 					})}
 					width="md"
@@ -63,7 +63,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.ruleName.nameRules"
+									id="pages.searchTable.updateForm.customerName.nameRules"
 									defaultMessage="请输入规则名称！"
 								/>
 							),
@@ -74,11 +74,11 @@ const UpdateForm = (props) => {
 					name="desc"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.ruleDesc.descLabel',
+						id: 'pages.searchTable.updateForm.customerDesc.descLabel',
 						defaultMessage: '规则描述',
 					})}
 					placeholder={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.ruleDesc.descPlaceholder',
+						id: 'pages.searchTable.updateForm.customerDesc.descPlaceholder',
 						defaultMessage: '请输入至少五个字符',
 					})}
 					rules={[
@@ -86,7 +86,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.ruleDesc.descRules"
+									id="pages.searchTable.updateForm.customerDesc.descRules"
 									defaultMessage="请输入至少五个字符的规则描述！"
 								/>
 							),
@@ -101,7 +101,7 @@ const UpdateForm = (props) => {
 					template: '0',
 				}}
 				title={intl.formatMessage({
-					id: 'pages.searchTable.updateForm.ruleProps.title',
+					id: 'pages.searchTable.updateForm.customerProps.title',
 					defaultMessage: '配置规则属性',
 				})}
 			>
@@ -121,7 +121,7 @@ const UpdateForm = (props) => {
 					name="template"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.ruleProps.templateLabel',
+						id: 'pages.searchTable.updateForm.customerProps.templateLabel',
 						defaultMessage: '规则模板',
 					})}
 					valueEnum={{
@@ -132,7 +132,7 @@ const UpdateForm = (props) => {
 				<ProFormRadio.Group
 					name="type"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.ruleProps.typeLabel',
+						id: 'pages.searchTable.updateForm.customerProps.typeLabel',
 						defaultMessage: '规则类型',
 					})}
 					options={[
