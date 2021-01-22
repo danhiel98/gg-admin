@@ -1,23 +1,31 @@
 import request from '@/utils/request';
-import { auth } from '@/utils/firebaseConfig';
+import { app, auth } from '@/utils/firebaseConfig';
 
 export async function accountLogin(params) {
 	let result;
 
-	await auth
-		.signInWithEmailAndPassword(params.userName, params.password)
-		.then(data => {
-			result = {
-				status: 'ok',
-				currentAuthority: 'user',
-			}
+	await app
+		.auth()
+		.setPersistence(app.auth.Auth.Persistence.LOCAL)
+		.then(async () => {
+			await auth
+				.signInWithEmailAndPassword(params.userName, params.password)
+				.then((data) => {
+					result = {
+						status: 'ok',
+						currentAuthority: 'user',
+					};
+				})
+				.catch((error) => {
+					result = {
+						status: 'error',
+						message: error.message,
+						currentAuthority: 'guest',
+					};
+				});
 		})
-		.catch(error => {
-			result = {
-				status: 'error',
-				message: error.message,
-				currentAuthority: 'guest',
-			}
+		.catch((error) => {
+			console.log(error);
 		})
 
 	return result;

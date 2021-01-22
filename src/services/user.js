@@ -6,6 +6,7 @@ export async function query() {
 }
 
 export async function queryCurrent() {
+	console.log(auth.currentUser)
 	return auth.currentUser;
 	// return request('/api/currentUser');
 } // Cargar el usuario activo

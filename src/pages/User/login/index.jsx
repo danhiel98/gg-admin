@@ -46,6 +46,9 @@ const Login = (props) => {
 				submitter={{
 					render: (_, dom) => dom.pop(),
 					submitButtonProps: {
+						id: 'pages.login.submit',
+						title: 'Iniciar sesión',
+						value: 'Iniciar sesión',
 						loading: submitting,
 						size: 'large',
 						style: {
@@ -84,7 +87,7 @@ const Login = (props) => {
 									message: (
 										<FormattedMessage
 											id="pages.login.username.required"
-											defaultMessage="请输入用户名!"
+											defaultMessage="¡Nombre de usuario requerido!"
 										/>
 									),
 								},
@@ -98,7 +101,7 @@ const Login = (props) => {
 							}}
 							placeholder={intl.formatMessage({
 								id: 'pages.login.password.placeholder',
-								defaultMessage: '密码: ant.design',
+								defaultMessage: 'La contraseña es requerida',
 							})}
 							rules={[
 								{
@@ -106,7 +109,7 @@ const Login = (props) => {
 									message: (
 										<FormattedMessage
 											id="pages.login.password.required"
-											defaultMessage="请输入密码！"
+											defaultMessage="¡Contraseña requerida!"
 										/>
 									),
 								},
