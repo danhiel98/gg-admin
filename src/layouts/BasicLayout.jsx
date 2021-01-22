@@ -3,7 +3,7 @@
  *
  * @see You can view component api by: https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout, { FooterToolbar, DefaultFooter } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { Result, Button } from 'antd';
@@ -36,29 +36,8 @@ const menuDataRender = (menuList) =>
 	});
 
 const defaultFooterDom = (
-	<DefaultFooter
-		// copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
-		// links={[
-		// 	{
-		// 		key: 'Ant Design Pro',
-		// 		title: 'Ant Design Pro',
-		// 		href: 'https://pro.ant.design',
-		// 		blankTarget: true,
-		// 	},
-		// 	{
-		// 		key: 'github',
-		// 		title: <GithubOutlined />,
-		// 		href: 'https://github.com/ant-design/ant-design-pro',
-		// 		blankTarget: true,
-		// 	},
-		// 	{
-		// 		key: 'Ant Design',
-		// 		title: 'Ant Design',
-		// 		href: 'https://ant.design',
-		// 		blankTarget: true,
-		// 	},
-		// ]}
-	/>
+	<FooterToolbar />
+	// <DefaultFooter />
 );
 
 const BasicLayout = (props) => {

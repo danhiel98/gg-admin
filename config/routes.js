@@ -25,13 +25,13 @@ export default [
 						routes: [
 							{
 								path: '/',
-								redirect: '/welcome',
+								redirect: '/home',
 							},
 							{
-								path: '/welcome',
-								name: 'welcome',
-								icon: 'smile',
-								component: './Welcome',
+								path: '/home',
+								name: 'home',
+								icon: 'home',
+								component: './Home',
 							},
 							{
 								path: '/admin',
@@ -44,16 +44,22 @@ export default [
 										path: '/admin/sub-page',
 										name: 'sub-page',
 										icon: 'smile',
-										component: './Welcome',
+										component: './Home',
 										authority: ['admin'],
 									},
 								],
 							},
 							{
-								name: 'list.table-list',
-								icon: 'table',
-								path: '/list',
-								component: './TableList',
+								name: 'orders',
+								icon: 'snippets',
+								path: '/orders',
+								component: './Order',
+							},
+							{
+								name: 'customers',
+								icon: 'smile',
+								path: '/customers',
+								component: './Customer',
 							},
 							{
 								component: './404',

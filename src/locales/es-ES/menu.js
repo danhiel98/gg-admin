@@ -1,4 +1,5 @@
 export default {
+  'menu.home': 'Inicio',
   'menu.welcome': 'Bienvenido',
   'menu.more-blocks': 'Más bloques',
   'menu.home': 'Inicio',
@@ -21,6 +22,8 @@ export default {
   'menu.form.step-form.confirm': 'Formulario por pasos (confirmar información de transferencia)',
   'menu.form.step-form.result': 'Formulario por pasos (finalizado)',
   'menu.form.advanced-form': 'Formulario Avanzado',
+  'menu.orders': 'Pedidos',
+  'menu.customers': 'Clientes',
   'menu.list': 'Lista',
   'menu.list.table-list': 'Tabla de Búsqueda',
   'menu.list.basic-list': 'Lista Básica',
