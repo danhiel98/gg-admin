@@ -72,16 +72,13 @@ const handleRemove = async (selectedRows) => {
 };
 
 const TableList = () => {
-	/** 新建窗口的弹窗 */
 	const [createModalVisible, handleModalVisible] = useState(false);
-	/** 分布更新窗口的弹窗 */
 
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false);
 	const [showDetail, setShowDetail] = useState(false);
 	const actionRef = useRef();
 	const [currentRow, setCurrentRow] = useState();
 	const [selectedRowsState, setSelectedRows] = useState([]);
-	/** 国际化配置 */
 
 	const intl = useIntl();
 	const columns = [
@@ -89,11 +86,11 @@ const TableList = () => {
 			title: (
 				<FormattedMessage
 					id="pages.searchTable.updateForm.customerName.nameLabel"
-					defaultMessage="规则名称"
+					defaultMessage="Nombre del cliente"
 				/>
 			),
 			dataIndex: 'name',
-			tip: '规则名称是唯一的 key',
+			tip: 'Nombre de cliente',
 			render: (dom, entity) => {
 				return (
 					<a
@@ -108,66 +105,47 @@ const TableList = () => {
 			},
 		},
 		{
-			title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="描述" />,
-			dataIndex: 'desc',
+			title: (
+				<FormattedMessage id="pages.searchTable.titleAddress" defaultMessage="Dirección" />
+			),
+			dataIndex: 'address',
 			valueType: 'textarea',
 		},
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.titleCallNo"
-					defaultMessage="服务调用次数"
+					id="pages.searchTable.titlePhoneNumber"
+					defaultMessage="PhoneNumber"
 				/>
 			),
-			dataIndex: 'callNo',
+			dataIndex: 'main_phone_number',
 			sorter: true,
 			hideInForm: true,
-			renderText: (val) =>
-				`${val}${intl.formatMessage({
-					id: 'pages.searchTable.tenThousand',
-					defaultMessage: ' 万 ',
-				})}`,
 		},
 		{
-			title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="状态" />,
-			dataIndex: 'status',
+			title: (
+				<FormattedMessage id="pages.searchTable.titleType" defaultMessage="Customer Type" />
+			),
+			dataIndex: 'type',
 			hideInForm: true,
 			valueEnum: {
-				0: {
+				casual: {
 					text: (
 						<FormattedMessage
 							id="pages.searchTable.nameStatus.default"
-							defaultMessage="关闭"
+							defaultMessage="Casual"
 						/>
 					),
 					status: 'Default',
 				},
-				1: {
+				frecuente: {
 					text: (
 						<FormattedMessage
 							id="pages.searchTable.nameStatus.running"
-							defaultMessage="运行中"
-						/>
-					),
-					status: 'Processing',
-				},
-				2: {
-					text: (
-						<FormattedMessage
-							id="pages.searchTable.nameStatus.online"
-							defaultMessage="已上线"
+							defaultMessage="Frequent"
 						/>
 					),
 					status: 'Success',
-				},
-				3: {
-					text: (
-						<FormattedMessage
-							id="pages.searchTable.nameStatus.abnormal"
-							defaultMessage="异常"
-						/>
-					),
-					status: 'Error',
 				},
 			},
 		},
@@ -175,7 +153,7 @@ const TableList = () => {
 			title: (
 				<FormattedMessage
 					id="pages.searchTable.titleUpdatedAt"
-					defaultMessage="上次调度时间"
+					defaultMessage="Fecha actualizado"
 				/>
 			),
 			sorter: true,
@@ -194,7 +172,7 @@ const TableList = () => {
 							{...rest}
 							placeholder={intl.formatMessage({
 								id: 'pages.searchTable.exception',
-								defaultMessage: '请输入异常原因！',
+								defaultMessage: 'Excepción',
 							})}
 						/>
 					);
@@ -204,7 +182,7 @@ const TableList = () => {
 			},
 		},
 		{
-			title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
+			title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Título" />,
 			dataIndex: 'option',
 			valueType: 'option',
 			render: (_, record) => [
@@ -215,12 +193,15 @@ const TableList = () => {
 						setCurrentRow(record);
 					}}
 				>
-					<FormattedMessage id="pages.searchTable.config" defaultMessage="配置" />
+					<FormattedMessage
+						id="pages.searchTable.config"
+						defaultMessage="Configuración"
+					/>
 				</a>,
 				<a key="subscribeAlert" href="https://procomponents.ant.design/">
 					<FormattedMessage
 						id="pages.searchTable.subscribeAlert"
-						defaultMessage="订阅警报"
+						defaultMessage="Suscribirse"
 					/>
 				</a>,
 			],
@@ -231,7 +212,7 @@ const TableList = () => {
 			<ProTable
 				headerTitle={intl.formatMessage({
 					id: 'pages.searchTable.title',
-					defaultMessage: '查询表格',
+					defaultMessage: 'Título',
 				})}
 				actionRef={actionRef}
 				rowKey="key"

@@ -120,8 +120,8 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.titleCallNo"
-					defaultMessage="服务调用次数"
+					id="pages.searchTable.titlePhoneNumber"
+					defaultMessage="Phone Number"
 				/>
 			),
 			dataIndex: 'callNo',
@@ -134,7 +134,7 @@ const TableList = () => {
 				})}`,
 		},
 		{
-			title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="状态" />,
+			title: <FormattedMessage id="pages.searchTable.titleType" defaultMessage="状态" />,
 			dataIndex: 'status',
 			hideInForm: true,
 			valueEnum: {
