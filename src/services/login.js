@@ -25,7 +25,11 @@ export async function accountLogin(params) {
 				});
 		})
 		.catch((error) => {
-			console.log(error);
+			result = {
+				status: 'error',
+				message: error.message,
+				currentAuthority: 'guest',
+			};
 		})
 
 	return result;

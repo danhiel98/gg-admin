@@ -141,7 +141,7 @@ const TableList = () => {
 				0: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.default"
+							id="pages.searchTable.nameType.default"
 							defaultMessage="关闭"
 						/>
 					),
@@ -150,7 +150,7 @@ const TableList = () => {
 				1: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.running"
+							id="pages.searchTable.nameType.running"
 							defaultMessage="运行中"
 						/>
 					),
@@ -159,7 +159,7 @@ const TableList = () => {
 				2: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.online"
+							id="pages.searchTable.nameType.online"
 							defaultMessage="已上线"
 						/>
 					),
@@ -168,7 +168,7 @@ const TableList = () => {
 				3: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.abnormal"
+							id="pages.searchTable.nameType.abnormal"
 							defaultMessage="异常"
 						/>
 					),

@@ -132,7 +132,7 @@ const TableList = () => {
 				casual: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.default"
+							id="pages.searchTable.nameType.casual"
 							defaultMessage="Casual"
 						/>
 					),
@@ -141,7 +141,7 @@ const TableList = () => {
 				frecuente: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameStatus.running"
+							id="pages.searchTable.nameType.frequent"
 							defaultMessage="Frequent"
 						/>
 					),
@@ -152,34 +152,13 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.titleUpdatedAt"
-					defaultMessage="Fecha actualizado"
+					id="pages.searchTable.ordersAmount"
+					defaultMessage="Orders Amount"
 				/>
 			),
 			sorter: true,
-			dataIndex: 'updatedAt',
-			valueType: 'dateTime',
-			renderFormItem: (item, { defaultRender, ...rest }, form) => {
-				const status = form.getFieldValue('status');
-
-				if (`${status}` === '0') {
-					return false;
-				}
-
-				if (`${status}` === '3') {
-					return (
-						<Input
-							{...rest}
-							placeholder={intl.formatMessage({
-								id: 'pages.searchTable.exception',
-								defaultMessage: 'Excepción',
-							})}
-						/>
-					);
-				}
-
-				return defaultRender(item);
-			},
+			dataIndex: 'orders_amount',
+			valueType: 'number'
 		},
 		{
 			title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Título" />,
@@ -187,21 +166,22 @@ const TableList = () => {
 			valueType: 'option',
 			render: (_, record) => [
 				<a
-					key="config"
+					key="edit"
 					onClick={() => {
 						handleUpdateModalVisible(true);
 						setCurrentRow(record);
 					}}
 				>
 					<FormattedMessage
-						id="pages.searchTable.config"
-						defaultMessage="Configuración"
+						id="pages.searchTable.edit"
+						defaultMessage="Edit"
 					/>
 				</a>,
-				<a key="subscribeAlert" href="https://procomponents.ant.design/">
+				<a key="delete"
+					href="https://procomponents.ant.design/">
 					<FormattedMessage
-						id="pages.searchTable.subscribeAlert"
-						defaultMessage="Suscribirse"
+						id="pages.searchTable.delete"
+						defaultMessage="Delete"
 					/>
 				</a>,
 			],
@@ -293,8 +273,9 @@ const TableList = () => {
 			<ModalForm
 				title={intl.formatMessage({
 					id: 'pages.searchTable.createForm.newCustomer',
-					defaultMessage: '新建规则',
+					defaultMessage: 'New Customer',
 				})}
+				layout='horizontal'
 				width="400px"
 				visible={createModalVisible}
 				onVisibleChange={handleModalVisible}
@@ -311,21 +292,43 @@ const TableList = () => {
 				}}
 			>
 				<ProFormText
-					Customers={[
+					name="name"
+					label={intl.formatMessage({
+						id: 'pages.searchTable.updateForm.customerName.label',
+						defaultMessage: 'Name',
+					})}
+					width="md"
+					rules={[
 						{
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.customerName"
-									defaultMessage="规则名称为必填项"
+									id="pages.searchTable.updateForm.customerName.rules"
+									defaultMessage="Name required!"
 								/>
 							),
 						},
 					]}
-					width="md"
-					name="name"
 				/>
-				<ProFormTextArea width="md" name="desc" />
+				<ProFormTextArea
+					name="desc"
+					label={intl.formatMessage({
+						id: 'pages.searchTable.updateForm.customerName.addressLabel',
+						defaultMessage: 'Address'
+					})}
+					width="md"
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.searchTable.Form.customerName.nameRules"
+									defaultMessage="Name required!"
+								/>
+							),
+						},
+					]}
+				/>
 			</ModalForm>
 			<UpdateForm
 				onSubmit={async (value) => {

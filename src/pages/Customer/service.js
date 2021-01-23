@@ -23,7 +23,6 @@ export async function queryCustomer(params) {
 		})
 	});
 
-	// console.log(params);
 	console.log(response);
 	customers.then((r) => console.log(r));
 	return response;
@@ -35,6 +34,7 @@ export async function removeCustomer(params) {
 	});
 }
 export async function addCustomer(params) {
+	console.log(params);
 	return request('/api/customer', {
 		method: 'POST',
 		data: { ...params, method: 'post' },
