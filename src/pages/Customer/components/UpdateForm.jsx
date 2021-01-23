@@ -26,7 +26,7 @@ const UpdateForm = (props) => {
 						}}
 						destroyOnClose
 						title={intl.formatMessage({
-							id: 'pages.searchTable.updateForm.customerConfig',
+							id: 'pages.customer.updateForm.customerConfig',
 							defaultMessage: '规则配置',
 						})}
 						visible={props.updateModalVisible}
@@ -47,14 +47,14 @@ const UpdateForm = (props) => {
 					desc: props.values.desc,
 				}}
 				title={intl.formatMessage({
-					id: 'pages.searchTable.updateForm.basicConfig',
+					id: 'pages.customer.updateForm.basicConfig',
 					defaultMessage: '基本信息',
 				})}
 			>
 				<ProFormText
 					name="name"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerName.nameLabel',
+						id: 'pages.customer.updateForm.customerName.nameLabel',
 						defaultMessage: '规则名称',
 					})}
 					width="md"
@@ -63,7 +63,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.customerName.nameRules"
+									id="pages.customer.updateForm.customerName.nameRules"
 									defaultMessage="请输入规则名称！"
 								/>
 							),
@@ -74,11 +74,11 @@ const UpdateForm = (props) => {
 					name="desc"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerDesc.descLabel',
+						id: 'pages.customer.updateForm.customerDesc.descLabel',
 						defaultMessage: '规则描述',
 					})}
 					placeholder={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerDesc.descPlaceholder',
+						id: 'pages.customer.updateForm.customerDesc.descPlaceholder',
 						defaultMessage: '请输入至少五个字符',
 					})}
 					rules={[
@@ -86,7 +86,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.customerDesc.descRules"
+									id="pages.customer.updateForm.customerDesc.descRules"
 									defaultMessage="请输入至少五个字符的规则描述！"
 								/>
 							),
@@ -101,7 +101,7 @@ const UpdateForm = (props) => {
 					template: '0',
 				}}
 				title={intl.formatMessage({
-					id: 'pages.searchTable.updateForm.customerProps.title',
+					id: 'pages.customer.updateForm.customerProps.title',
 					defaultMessage: '配置规则属性',
 				})}
 			>
@@ -109,7 +109,7 @@ const UpdateForm = (props) => {
 					name="target"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.object',
+						id: 'pages.customer.updateForm.object',
 						defaultMessage: '监控对象',
 					})}
 					valueEnum={{
@@ -121,7 +121,7 @@ const UpdateForm = (props) => {
 					name="template"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerProps.templateLabel',
+						id: 'pages.customer.updateForm.customerProps.templateLabel',
 						defaultMessage: '规则模板',
 					})}
 					valueEnum={{
@@ -132,7 +132,7 @@ const UpdateForm = (props) => {
 				<ProFormRadio.Group
 					name="type"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerProps.typeLabel',
+						id: 'pages.customer.updateForm.customerProps.typeLabel',
 						defaultMessage: '规则类型',
 					})}
 					options={[
@@ -153,7 +153,7 @@ const UpdateForm = (props) => {
 					frequency: 'month',
 				}}
 				title={intl.formatMessage({
-					id: 'pages.searchTable.updateForm.schedulingPeriod.title',
+					id: 'pages.customer.updateForm.schedulingPeriod.title',
 					defaultMessage: '设定调度周期',
 				})}
 			>
@@ -161,7 +161,7 @@ const UpdateForm = (props) => {
 					name="time"
 					width="md"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.schedulingPeriod.timeLabel',
+						id: 'pages.customer.updateForm.schedulingPeriod.timeLabel',
 						defaultMessage: '开始时间',
 					})}
 					rules={[
@@ -169,7 +169,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.schedulingPeriod.timeRules"
+									id="pages.customer.updateForm.schedulingPeriod.timeRules"
 									defaultMessage="请选择开始时间！"
 								/>
 							),
@@ -179,7 +179,7 @@ const UpdateForm = (props) => {
 				<ProFormSelect
 					name="frequency"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.object',
+						id: 'pages.customer.updateForm.object',
 						defaultMessage: '监控对象',
 					})}
 					width="md"

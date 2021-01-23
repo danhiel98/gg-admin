@@ -15,11 +15,11 @@ const handleAdd = async (fields) => {
 	try {
 		await addCustomer({ ...fields });
 		hide();
-		message.success('添加成功');
+		message.success('¡Registro agregado correctamente!');
 		return true;
 	} catch (error) {
 		hide();
-		message.error('添加失败请重试！');
+		message.error('Error al intentar agregar el registro');
 		return false;
 	}
 };
@@ -30,7 +30,7 @@ const handleAdd = async (fields) => {
  */
 
 const handleUpdate = async (fields) => {
-	const hide = message.loading('正在配置');
+	const hide = message.loading('Cargando');
 
 	try {
 		await updateCustomer({
@@ -39,11 +39,11 @@ const handleUpdate = async (fields) => {
 			key: fields.key,
 		});
 		hide();
-		message.success('配置成功');
+		message.success('¡Registro actualizado correctamente!');
 		return true;
 	} catch (error) {
 		hide();
-		message.error('配置失败请重试！');
+		message.error('No se pudo actualizar el registro');
 		return false;
 	}
 };
@@ -54,7 +54,7 @@ const handleUpdate = async (fields) => {
  */
 
 const handleRemove = async (selectedRows) => {
-	const hide = message.loading('正在删除');
+	const hide = message.loading('Cargando');
 	if (!selectedRows) return true;
 
 	try {
@@ -62,30 +62,30 @@ const handleRemove = async (selectedRows) => {
 			key: selectedRows.map((row) => row.key),
 		});
 		hide();
-		message.success('删除成功，即将刷新');
+		message.success('¡Cliente eliminado correctamente!');
 		return true;
 	} catch (error) {
 		hide();
-		message.error('删除失败，请重试');
+		message.error('No se pudo eliminar al cliente');
 		return false;
 	}
 };
 
 const TableList = () => {
-	const [createModalVisible, handleModalVisible] = useState(false);
+	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
+	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
+	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
 
-	const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-	const [showDetail, setShowDetail] = useState(false);
 	const actionRef = useRef();
-	const [currentRow, setCurrentRow] = useState();
-	const [selectedRowsState, setSelectedRows] = useState([]);
+	const [currentRow, setCurrentRow] = useState(); // Registro seleccionado
+	const [selectedRowsState, setSelectedRows] = useState([]); // No sé, xd
 
 	const intl = useIntl();
 	const columns = [
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.updateForm.customerName.nameLabel"
+					id="pages.customer.updateForm.customerName.nameLabel"
 					defaultMessage="Nombre del cliente"
 				/>
 			),
@@ -106,7 +106,7 @@ const TableList = () => {
 		},
 		{
 			title: (
-				<FormattedMessage id="pages.searchTable.titleAddress" defaultMessage="Dirección" />
+				<FormattedMessage id="pages.customer.titleAddress" defaultMessage="Dirección" />
 			),
 			dataIndex: 'address',
 			valueType: 'textarea',
@@ -114,7 +114,7 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.titlePhoneNumber"
+					id="pages.customer.titlePhoneNumber"
 					defaultMessage="PhoneNumber"
 				/>
 			),
@@ -124,7 +124,7 @@ const TableList = () => {
 		},
 		{
 			title: (
-				<FormattedMessage id="pages.searchTable.titleType" defaultMessage="Customer Type" />
+				<FormattedMessage id="pages.customer.titleType" defaultMessage="Customer Type" />
 			),
 			dataIndex: 'type',
 			hideInForm: true,
@@ -132,7 +132,7 @@ const TableList = () => {
 				casual: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameType.casual"
+							id="pages.customer.nameType.casual"
 							defaultMessage="Casual"
 						/>
 					),
@@ -141,7 +141,7 @@ const TableList = () => {
 				frecuente: {
 					text: (
 						<FormattedMessage
-							id="pages.searchTable.nameType.frequent"
+							id="pages.customer.nameType.frequent"
 							defaultMessage="Frequent"
 						/>
 					),
@@ -152,7 +152,7 @@ const TableList = () => {
 		{
 			title: (
 				<FormattedMessage
-					id="pages.searchTable.ordersAmount"
+					id="pages.customer.ordersAmount"
 					defaultMessage="Orders Amount"
 				/>
 			),
@@ -161,7 +161,7 @@ const TableList = () => {
 			valueType: 'number'
 		},
 		{
-			title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Título" />,
+			title: <FormattedMessage id="pages.customer.titleOption" defaultMessage="Título" />,
 			dataIndex: 'option',
 			valueType: 'option',
 			render: (_, record) => [
@@ -173,14 +173,18 @@ const TableList = () => {
 					}}
 				>
 					<FormattedMessage
-						id="pages.searchTable.edit"
+						id="pages.customer.edit"
 						defaultMessage="Edit"
 					/>
 				</a>,
-				<a key="delete"
-					href="https://procomponents.ant.design/">
+				<a
+					key="delete"
+					onClick={() => {
+						console.log('Me quieres eliminar ¿Acaso no sabes quien soy?')
+					}}
+				>
 					<FormattedMessage
-						id="pages.searchTable.delete"
+						id="pages.customer.delete"
 						defaultMessage="Delete"
 					/>
 				</a>,
@@ -191,7 +195,7 @@ const TableList = () => {
 		<PageContainer>
 			<ProTable
 				headerTitle={intl.formatMessage({
-					id: 'pages.searchTable.title',
+					id: 'pages.customer.title',
 					defaultMessage: 'Título',
 				})}
 				actionRef={actionRef}
@@ -208,7 +212,7 @@ const TableList = () => {
 						}}
 					>
 						<PlusOutlined />{' '}
-						<FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+						<FormattedMessage id="pages.customer.new" defaultMessage="New" />
 					</Button>,
 				]}
 				request={(params, sorter, filter) => queryCustomer({ ...params, sorter, filter })}
@@ -224,7 +228,7 @@ const TableList = () => {
 					extra={
 						<div>
 							<FormattedMessage
-								id="pages.searchTable.chosen"
+								id="pages.customer.chosen"
 								defaultMessage="已选择"
 							/>{' '}
 							<a
@@ -234,16 +238,16 @@ const TableList = () => {
 							>
 								{selectedRowsState.length}
 							</a>{' '}
-							<FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
+							<FormattedMessage id="pages.customer.item" defaultMessage="项" />
 							&nbsp;&nbsp;
 							<span>
 								<FormattedMessage
-									id="pages.searchTable.totalServiceCalls"
+									id="pages.customer.totalServiceCalls"
 									defaultMessage="服务调用次数总计"
 								/>{' '}
 								{selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)}{' '}
 								<FormattedMessage
-									id="pages.searchTable.tenThousand"
+									id="pages.customer.tenThousand"
 									defaultMessage="万"
 								/>
 							</span>
@@ -258,13 +262,13 @@ const TableList = () => {
 						}}
 					>
 						<FormattedMessage
-							id="pages.searchTable.batchDeletion"
+							id="pages.customer.batchDeletion"
 							defaultMessage="批量删除"
 						/>
 					</Button>
 					<Button type="primary">
 						<FormattedMessage
-							id="pages.searchTable.batchApproval"
+							id="pages.customer.batchApproval"
 							defaultMessage="批量审批"
 						/>
 					</Button>
@@ -272,7 +276,7 @@ const TableList = () => {
 			)}
 			<ModalForm
 				title={intl.formatMessage({
-					id: 'pages.searchTable.createForm.newCustomer',
+					id: 'pages.customer.updateForm.newCustomer',
 					defaultMessage: 'New Customer',
 				})}
 				layout='horizontal'
@@ -294,7 +298,7 @@ const TableList = () => {
 				<ProFormText
 					name="name"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerName.label',
+						id: 'pages.customer.updateForm.customerName.nameLabel',
 						defaultMessage: 'Name',
 					})}
 					width="md"
@@ -303,7 +307,26 @@ const TableList = () => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.updateForm.customerName.rules"
+									id="pages.customer.updateForm.customerName.nameRules"
+									defaultMessage="Name required!"
+								/>
+							),
+						},
+					]}
+				/>
+				<ProFormText
+					name="phone"
+					label={intl.formatMessage({
+						id: 'pages.customer.updateForm.customerName.phoneLabel',
+						defaultMessage: 'Name',
+					})}
+					width="md"
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.customer.updateForm.customerName.phoneRules"
 									defaultMessage="Name required!"
 								/>
 							),
@@ -313,7 +336,7 @@ const TableList = () => {
 				<ProFormTextArea
 					name="desc"
 					label={intl.formatMessage({
-						id: 'pages.searchTable.updateForm.customerName.addressLabel',
+						id: 'pages.customer.updateForm.customerName.addressLabel',
 						defaultMessage: 'Address'
 					})}
 					width="md"
@@ -322,7 +345,7 @@ const TableList = () => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.searchTable.Form.customerName.nameRules"
+									id="pages.customer.Form.customerName.addressRules"
 									defaultMessage="Name required!"
 								/>
 							),
