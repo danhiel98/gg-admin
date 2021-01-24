@@ -12,60 +12,60 @@ import PromiseRender from './PromiseRender';
  * @param { 未通过的组件 | no pass components } Exception
  */
 const checkPermissions = (authority, currentAuthority, target, Exception) => {
-  // Retirement authority, return target;
-  if (!authority) {
-    return target;
-  }
+	// Retirement authority, return target;
+	if (!authority) {
+		return target;
+	}
 
-  if (Array.isArray(authority)) {
-    if (Array.isArray(currentAuthority)) {
-      if (currentAuthority.some((item) => authority.includes(item))) {
-        return target;
-      }
-    } else if (authority.includes(currentAuthority)) {
-      return target;
-    }
+	if (Array.isArray(authority)) {
+		if (Array.isArray(currentAuthority)) {
+			if (currentAuthority.some((item) => authority.includes(item))) {
+				return target;
+			}
+		} else if (authority.includes(currentAuthority)) {
+			return target;
+		}
 
-    return Exception;
-  } // string
+		return Exception;
+	} // string
 
-  if (typeof authority === 'string') {
-    if (Array.isArray(currentAuthority)) {
-      if (currentAuthority.some((item) => authority === item)) {
-        return target;
-      }
-    } else if (authority === currentAuthority) {
-      return target;
-    }
+	if (typeof authority === 'string') {
+		if (Array.isArray(currentAuthority)) {
+			if (currentAuthority.some((item) => authority === item)) {
+				return target;
+			}
+		} else if (authority === currentAuthority) {
+			return target;
+		}
 
-    return Exception;
-  } // Promise
+		return Exception;
+	} // Promise
 
-  if (authority instanceof Promise) {
-    return <PromiseRender ok={target} error={Exception} promise={authority} />;
-  } // Function
+	if (authority instanceof Promise) {
+		return <PromiseRender ok={target} error={Exception} promise={authority} />;
+	} // Function
 
-  if (typeof authority === 'function') {
-    const bool = authority(currentAuthority); // Promise
+	if (typeof authority === 'function') {
+		const bool = authority(currentAuthority); // Promise
 
-    if (bool instanceof Promise) {
-      return <PromiseRender ok={target} error={Exception} promise={bool} />;
-    }
+		if (bool instanceof Promise) {
+			return <PromiseRender ok={target} error={Exception} promise={bool} />;
+		}
 
-    if (bool) {
-      return target;
-    }
+		if (bool) {
+			return target;
+		}
 
-    return Exception;
-  }
+		return Exception;
+	}
 
-  throw new Error('unsupported parameters');
+	throw new Error('unsupported parameters');
 };
 
 export { checkPermissions };
 
 function check(authority, target, Exception) {
-  return checkPermissions(authority, CURRENT, target, Exception);
+	return checkPermissions(authority, CURRENT, target, Exception);
 }
 
 export default check;

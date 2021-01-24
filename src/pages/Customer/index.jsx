@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input, Drawer, Radio } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -105,9 +105,7 @@ const TableList = () => {
 			},
 		},
 		{
-			title: (
-				<FormattedMessage id="pages.customer.titleAddress" defaultMessage="Dirección" />
-			),
+			title: <FormattedMessage id="pages.customer.titleAddress" defaultMessage="Dirección" />,
 			dataIndex: 'address',
 			valueType: 'textarea',
 		},
@@ -151,14 +149,11 @@ const TableList = () => {
 		},
 		{
 			title: (
-				<FormattedMessage
-					id="pages.customer.ordersAmount"
-					defaultMessage="Orders Amount"
-				/>
+				<FormattedMessage id="pages.customer.ordersAmount" defaultMessage="Orders Amount" />
 			),
 			sorter: true,
 			dataIndex: 'orders_amount',
-			valueType: 'number'
+			valueType: 'number',
 		},
 		{
 			title: <FormattedMessage id="pages.customer.titleOption" defaultMessage="Título" />,
@@ -172,21 +167,15 @@ const TableList = () => {
 						setCurrentRow(record);
 					}}
 				>
-					<FormattedMessage
-						id="pages.customer.edit"
-						defaultMessage="Edit"
-					/>
+					<FormattedMessage id="pages.customer.edit" defaultMessage="Edit" />
 				</a>,
 				<a
 					key="delete"
 					onClick={() => {
-						console.log('Me quieres eliminar ¿Acaso no sabes quien soy?')
+						console.log('Me quieres eliminar ¿Acaso no sabes quien soy?');
 					}}
 				>
-					<FormattedMessage
-						id="pages.customer.delete"
-						defaultMessage="Delete"
-					/>
+					<FormattedMessage id="pages.customer.delete" defaultMessage="Delete" />
 				</a>,
 			],
 		},
@@ -227,10 +216,7 @@ const TableList = () => {
 				<FooterToolbar
 					extra={
 						<div>
-							<FormattedMessage
-								id="pages.customer.chosen"
-								defaultMessage="已选择"
-							/>{' '}
+							<FormattedMessage id="pages.customer.chosen" defaultMessage="已选择" />{' '}
 							<a
 								style={{
 									fontWeight: 600,
@@ -263,13 +249,13 @@ const TableList = () => {
 					>
 						<FormattedMessage
 							id="pages.customer.batchDeletion"
-							defaultMessage="批量删除"
+							defaultMessage="Batch Deletion"
 						/>
 					</Button>
 					<Button type="primary">
 						<FormattedMessage
 							id="pages.customer.batchApproval"
-							defaultMessage="批量审批"
+							defaultMessage="Batch Approval"
 						/>
 					</Button>
 				</FooterToolbar>
@@ -279,7 +265,7 @@ const TableList = () => {
 					id: 'pages.customer.updateForm.newCustomer',
 					defaultMessage: 'New Customer',
 				})}
-				layout='horizontal'
+				layout="horizontal"
 				width="400px"
 				visible={createModalVisible}
 				onVisibleChange={handleModalVisible}
@@ -337,7 +323,7 @@ const TableList = () => {
 					name="desc"
 					label={intl.formatMessage({
 						id: 'pages.customer.updateForm.customerName.addressLabel',
-						defaultMessage: 'Address'
+						defaultMessage: 'Address',
 					})}
 					width="md"
 					rules={[
@@ -352,6 +338,20 @@ const TableList = () => {
 						},
 					]}
 				/>
+				<Radio.Group onChange={(x) => console.log(x)}>
+					<Radio.Button value="casual">
+						<FormattedMessage
+							id="pages.customer.Form.radioOption.casual"
+							defaultMessage="Casual"
+						/>
+					</Radio.Button>
+					<Radio.Button value="frequent">
+						<FormattedMessage
+							id="pages.customer.Form.radioOption.frequent"
+							defaultMessage="Frequent"
+						/>
+					</Radio.Button>
+				</Radio.Group>
 			</ModalForm>
 			<UpdateForm
 				onSubmit={async (value) => {

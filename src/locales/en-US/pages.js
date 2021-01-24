@@ -30,6 +30,7 @@ export default {
 		'Umi ui is now released, welcome to use npm run ui to start the experience.',
 	'pages.customer.createForm.newCustomer': 'New Customer',
 	'pages.customer.updateForm.customerName.nameLabel': 'Customer Name',
+	'pages.customer.updateForm.customerName.phoneLabel': 'Phone Number',
 	'pages.customer.updateForm.customerName.addressLabel': 'Address',
 	'pages.customer.updateForm.customerConfig': 'Customer configuration',
 	'pages.customer.updateForm.basicConfig': 'Basic Information',
