@@ -1,8 +1,9 @@
 import request from '@/utils/request';
-import { firestore, storage } from '@/utils/firebaseConfig';
+import { app, firestore, storage } from '@/utils/firebaseConfig';
 let ref = firestore.collection('customers');
 
 export async function queryCustomer(params) {
+	// console.log(params);
 	let customers = request('/api/customer', {
 		params,
 	});
@@ -18,13 +19,12 @@ export async function queryCustomer(params) {
 	await ref.get().then((qs) => {
 		response.total = qs.size;
 		qs.forEach(doc => {
-			// const { name, address, phone_numbers, user_id } = doc.data();
 			response.data.push({ key: doc.id, ...doc.data() })
 		})
 	});
 
-	console.log(response);
-	customers.then((r) => console.log(r));
+	// console.log(response);
+	// customers.then((r) => console.log(r));
 	return response;
 }
 export async function removeCustomer(params) {
@@ -35,10 +35,24 @@ export async function removeCustomer(params) {
 }
 export async function addCustomer(params) {
 	console.log(params);
-	return request('/api/customer', {
-		method: 'POST',
-		data: { ...params, method: 'post' },
-	});
+	let now = app.firestore.FieldValue.serverTimestamp();
+
+	return new Promise((resolve, reject) => {
+		ref.add({
+			created_at: now,
+			orders_amount: 0,
+			total_paid: 0,
+			updated_at: now,
+			user_id: null, // Revisar
+			...params
+		})
+		.then((docRef) => {
+			resolve(docRef);
+		})
+		.catch((error) => {
+			reject(error);
+		});
+	})
 }
 export async function updateCustomer(params) {
 	return request('/api/customer', {

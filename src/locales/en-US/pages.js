@@ -28,13 +28,16 @@ export default {
 	'pages.admin.subPage.title': 'This page can only be viewed by Admin',
 	'pages.admin.subPage.alertMessage':
 		'Umi ui is now released, welcome to use npm run ui to start the experience.',
-	'pages.customer.createForm.newCustomer': 'New Customer',
+	'pages.customer.updateForm.newCustomer': 'New Customer',
 	'pages.customer.updateForm.customerName.nameLabel': 'Customer Name',
 	'pages.customer.updateForm.customerName.phoneLabel': 'Phone Number',
 	'pages.customer.updateForm.customerName.addressLabel': 'Address',
 	'pages.customer.updateForm.customerConfig': 'Customer configuration',
 	'pages.customer.updateForm.basicConfig': 'Basic Information',
-	'pages.customer.updateForm.customerName.nameCustomers': 'Please enter the customer name!',
+	'pages.customer.Form.customerName.nameRules': 'Please enter the customer name!',
+	'pages.customer.Form.customerName.phoneRules': 'Please enter the phone number!',
+	'pages.customer.Form.customerName.addressRules': 'Please enter the address!',
+	'pages.customer.Form.customerName.typeRules': 'Please enter the customer type!',
 	'pages.customer.updateForm.customerDesc.descLabel': 'Customer Description',
 	'pages.customer.updateForm.customerDesc.descPlaceholder':
 		'Please enter at least five characters',

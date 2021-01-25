@@ -4,8 +4,9 @@ import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import { queryCustomer, updateCustomer, addCustomer, removeCustomer } from './service';
 
@@ -116,7 +117,7 @@ const TableList = () => {
 					defaultMessage="PhoneNumber"
 				/>
 			),
-			dataIndex: 'main_phone_number',
+			dataIndex: 'phone_number',
 			sorter: true,
 			hideInForm: true,
 		},
@@ -163,8 +164,8 @@ const TableList = () => {
 				<a
 					key="edit"
 					onClick={() => {
-						handleUpdateModalVisible(true);
 						setCurrentRow(record);
+						handleModalVisible(true);
 					}}
 				>
 					<FormattedMessage id="pages.customer.edit" defaultMessage="Edit" />
@@ -260,15 +261,12 @@ const TableList = () => {
 					</Button>
 				</FooterToolbar>
 			)}
-			<ModalForm
-				title={intl.formatMessage({
-					id: 'pages.customer.updateForm.newCustomer',
-					defaultMessage: 'New Customer',
-				})}
-				layout="horizontal"
-				width="400px"
+			<CreateForm
 				visible={createModalVisible}
-				onVisibleChange={handleModalVisible}
+				visibleChange={() => {
+					handleModalVisible(!createModalVisible);
+				}}
+				record={currentRow || null}
 				onFinish={async (value) => {
 					const success = await handleAdd(value);
 
@@ -280,80 +278,8 @@ const TableList = () => {
 						}
 					}
 				}}
-			>
-				<ProFormText
-					name="name"
-					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.nameLabel',
-						defaultMessage: 'Name',
-					})}
-					width="md"
-					rules={[
-						{
-							required: true,
-							message: (
-								<FormattedMessage
-									id="pages.customer.updateForm.customerName.nameRules"
-									defaultMessage="Name required!"
-								/>
-							),
-						},
-					]}
-				/>
-				<ProFormText
-					name="phone"
-					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.phoneLabel',
-						defaultMessage: 'Name',
-					})}
-					width="md"
-					rules={[
-						{
-							required: true,
-							message: (
-								<FormattedMessage
-									id="pages.customer.updateForm.customerName.phoneRules"
-									defaultMessage="Name required!"
-								/>
-							),
-						},
-					]}
-				/>
-				<ProFormTextArea
-					name="desc"
-					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.addressLabel',
-						defaultMessage: 'Address',
-					})}
-					width="md"
-					rules={[
-						{
-							required: true,
-							message: (
-								<FormattedMessage
-									id="pages.customer.Form.customerName.addressRules"
-									defaultMessage="Name required!"
-								/>
-							),
-						},
-					]}
-				/>
-				<Radio.Group onChange={(x) => console.log(x)}>
-					<Radio.Button value="casual">
-						<FormattedMessage
-							id="pages.customer.Form.radioOption.casual"
-							defaultMessage="Casual"
-						/>
-					</Radio.Button>
-					<Radio.Button value="frequent">
-						<FormattedMessage
-							id="pages.customer.Form.radioOption.frequent"
-							defaultMessage="Frequent"
-						/>
-					</Radio.Button>
-				</Radio.Group>
-			</ModalForm>
-			<UpdateForm
+			/>
+			{/* <UpdateForm
 				onSubmit={async (value) => {
 					const success = await handleUpdate(value);
 
@@ -372,7 +298,7 @@ const TableList = () => {
 				}}
 				updateModalVisible={updateModalVisible}
 				values={currentRow || {}}
-			/>
+			/> */}
 
 			<Drawer
 				width={600}
@@ -381,7 +307,7 @@ const TableList = () => {
 					setCurrentRow(undefined);
 					setShowDetail(false);
 				}}
-				closable={false}
+				closable={true}
 			>
 				{currentRow?.name && (
 					<ProDescriptions
