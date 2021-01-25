@@ -30,15 +30,11 @@ const handleAdd = async (fields) => {
  * @param fields
  */
 
-const handleUpdate = async (fields) => {
+const handleUpdate = async (fields, record) => {
 	const hide = message.loading('Cargando');
 
 	try {
-		await updateCustomer({
-			name: fields.name,
-			desc: fields.desc,
-			key: fields.key,
-		});
+		await updateCustomer(fields, record);
 		hide();
 		message.success('¡Registro actualizado correctamente!');
 		return true;
@@ -287,7 +283,7 @@ const TableList = () => {
 				}}
 				record={currentRow || {}}
 				onFinish={async (value) => {
-					const success = await handleUpdate(value);
+					const success = await handleUpdate(value, currentRow);
 
 					if (success) {
 						handleUpdateModalVisible(false);
@@ -299,26 +295,6 @@ const TableList = () => {
 					}
 				}}
 			/>
-			{/* <UpdateForm
-				onSubmit={async (value) => {
-					const success = await handleUpdate(value);
-
-					if (success) {
-						handleUpdateModalVisible(false);
-						setCurrentRow(undefined);
-
-						if (actionRef.current) {
-							actionRef.current.reload();
-						}
-					}
-				}}
-				onCancel={() => {
-					handleUpdateModalVisible(false);
-					setCurrentRow(undefined);
-				}}
-				updateModalVisible={updateModalVisible}
-				values={currentRow || {}}
-			/> */}
 
 			<Drawer
 				width={600}

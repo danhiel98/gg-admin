@@ -15,7 +15,7 @@ const CreateForm = (props) => {
 		<ModalForm
 			title={intl.formatMessage({
 				id: 'pages.customer.updateForm.newCustomer',
-				defaultMessage: 'New Customer',
+				defaultMessage: 'New/Update Customer',
 			})}
 			layout="horizontal"
 			width="400px"
@@ -25,6 +25,7 @@ const CreateForm = (props) => {
 					props.visibleChange()
 				}
 			}}
+			onFinish={(value) => props.onFinish(value)}
 		>
 			<ProFormText
 				name="name"

@@ -28,6 +28,7 @@ const UpdateForm = (props) => {
 					props.visibleChange();
 				}
 			}}
+			onFinish={(value) => props.onFinish(value)}
 		>
 			<ProFormText
 				name="name"

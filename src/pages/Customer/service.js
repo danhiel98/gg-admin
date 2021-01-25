@@ -3,10 +3,10 @@ import { app, firestore, storage } from '@/utils/firebaseConfig';
 let ref = firestore.collection('customers');
 
 export async function queryCustomer(params) {
-	// console.log(params);
-	let customers = request('/api/customer', {
-		params,
-	});
+
+	// let customers = request('/api/customer', {
+	// 	params,
+	// });
 
 	let response = {
 		current: params.current,
@@ -34,7 +34,6 @@ export async function removeCustomer(params) {
 	});
 }
 export async function addCustomer(params) {
-	console.log(params);
 	let now = app.firestore.FieldValue.serverTimestamp();
 
 	return new Promise((resolve, reject) => {
@@ -54,9 +53,17 @@ export async function addCustomer(params) {
 		});
 	})
 }
-export async function updateCustomer(params) {
-	return request('/api/customer', {
-		method: 'POST',
-		data: { ...params, method: 'update' },
-	});
+export async function updateCustomer(params, record) {
+	return new Promise((resolve, reject) => {
+		console.log(record.key, params);
+
+		ref.doc(record.key)
+		.update(params)
+		.then(() => {
+			resolve('¡Registro actualizado correctamente!')
+		})
+		.catch((error) => {
+			reject(error)
+		})
+	})
 }
