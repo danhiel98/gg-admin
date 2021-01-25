@@ -165,7 +165,7 @@ const TableList = () => {
 					key="edit"
 					onClick={() => {
 						setCurrentRow(record);
-						handleModalVisible(true);
+						handleUpdateModalVisible(true);
 					}}
 				>
 					<FormattedMessage id="pages.customer.edit" defaultMessage="Edit" />
@@ -272,6 +272,26 @@ const TableList = () => {
 
 					if (success) {
 						handleModalVisible(false);
+
+						if (actionRef.current) {
+							actionRef.current.reload();
+						}
+					}
+				}}
+			/>
+			<UpdateForm
+				visible={updateModalVisible}
+				visibleChange={() => {
+					handleUpdateModalVisible(!updateModalVisible);
+					setCurrentRow(undefined);
+				}}
+				record={currentRow || {}}
+				onFinish={async (value) => {
+					const success = await handleUpdate(value);
+
+					if (success) {
+						handleUpdateModalVisible(false);
+						setCurrentRow(undefined);
 
 						if (actionRef.current) {
 							actionRef.current.reload();
