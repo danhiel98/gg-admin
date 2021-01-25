@@ -1,5 +1,4 @@
-import React from 'react';
-import { Modal } from 'antd';
+import React, { useEffect, useRef } from 'react';
 import {
 	ModalForm,
 	ProFormText,
@@ -9,10 +8,25 @@ import {
 import { useIntl, FormattedMessage } from 'umi';
 
 const CreateForm = (props) => {
+	const formRef = useRef();
 	const intl = useIntl();
+
+	const resetFields = () => {
+		formRef.current.setFieldsValue({
+			name: '',
+			phone_number: '',
+			address: '',
+			type: '',
+		});
+	}
+
+	useEffect(() => {
+		resetFields();
+	});
 
 	return (
 		<ModalForm
+			formRef={formRef}
 			title={intl.formatMessage({
 				id: 'pages.customer.updateForm.newCustomer',
 				defaultMessage: 'New/Update Customer',
@@ -25,7 +39,9 @@ const CreateForm = (props) => {
 					props.visibleChange()
 				}
 			}}
-			onFinish={(value) => props.onFinish(value)}
+			onFinish={(value) => {
+				props.onFinish(value);
+			}}
 		>
 			<ProFormText
 				name="name"

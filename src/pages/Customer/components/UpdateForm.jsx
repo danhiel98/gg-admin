@@ -10,7 +10,7 @@ const UpdateForm = (props) => {
 		<ModalForm
 			formRef={formRef}
 			title={intl.formatMessage({
-				id: 'pages.customer.updateForm.newCustomer',
+				id: 'pages.customer.updateForm.updateCustomer',
 				defaultMessage: 'Update Customer',
 			})}
 			layout="horizontal"

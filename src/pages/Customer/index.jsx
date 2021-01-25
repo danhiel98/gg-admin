@@ -209,7 +209,7 @@ const TableList = () => {
 					},
 				}}
 			/>
-			{selectedRowsState?.length > 0 && (
+			{/* {selectedRowsState?.length > 0 && (
 				<FooterToolbar
 					extra={
 						<div>
@@ -256,7 +256,7 @@ const TableList = () => {
 						/>
 					</Button>
 				</FooterToolbar>
-			)}
+			)} */}
 			<CreateForm
 				visible={createModalVisible}
 				visibleChange={() => {
@@ -272,6 +272,7 @@ const TableList = () => {
 						if (actionRef.current) {
 							actionRef.current.reload();
 						}
+						return  true;
 					}
 				}}
 			/>
@@ -298,7 +299,7 @@ const TableList = () => {
 
 			<Drawer
 				width={600}
-				visible={showDetail}
+				visible={showDetail && currentRow}
 				onClose={() => {
 					setCurrentRow(undefined);
 					setShowDetail(false);

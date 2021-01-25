@@ -4,9 +4,11 @@ let ref = firestore.collection('customers');
 
 export async function queryCustomer(params) {
 
-	// let customers = request('/api/customer', {
-	// 	params,
-	// });
+	console.log(params);
+
+	let customers = request('/api/customer', {
+		params,
+	});
 
 	let response = {
 		current: params.current,
@@ -23,8 +25,8 @@ export async function queryCustomer(params) {
 		})
 	});
 
-	// console.log(response);
-	// customers.then((r) => console.log(r));
+	console.log(response);
+	customers.then((r) => console.log(r));
 	return response;
 }
 export async function removeCustomer(params) {

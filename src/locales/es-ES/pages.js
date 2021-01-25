@@ -29,6 +29,7 @@ export default {
 	'pages.admin.subPage.alertMessage':
 		'Umi ui is now released, welcome to use npm run ui to start the experience.',
 	'pages.customer.updateForm.newCustomer': 'Nuevo Cliente',
+	'pages.customer.updateForm.updateCustomer': 'Actualizar Cliente',
 	'pages.customer.updateForm.customerName.nameLabel': 'Nombre',
 	'pages.customer.updateForm.customerName.phoneLabel': 'Teléfono',
 	'pages.customer.updateForm.customerName.addressLabel': 'Dirección',
