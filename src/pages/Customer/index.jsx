@@ -311,34 +311,6 @@ const TableList = () => {
 					}
 				}}
 			/>
-			<UpdateForm
-				visible={updateModalVisible}
-				visibleChange={() => {
-					handleUpdateModalVisible(!updateModalVisible);
-					setCurrentRow(undefined);
-				}}
-				record={currentRow || {}}
-				onFinish={async (value) => {
-					const success = await handleUpdate(value, currentRow);
-
-					if (success) {
-						handleUpdateModalVisible(false);
-						setCurrentRow(undefined);
-
-						if (actionRef.current) {
-							actionRef.current.reload();
-						}
-					}
-				}}
-			/>
-
-			{/* <DeleteModal
-				visible={deleteModalVisible}
-				visibleChange={() => {
-
-				}}
-				record={currentRow}
-			/> */}
 
 			<Drawer
 				width={600}
@@ -363,6 +335,27 @@ const TableList = () => {
 					/>
 				)}
 			</Drawer>
+
+			<UpdateForm
+				visible={updateModalVisible}
+				record={currentRow || {}}
+				onCancel={() => {
+					handleUpdateModalVisible(false);
+          			setCurrentRow(undefined);
+				}}
+				onFinish={async (value) => {
+					const success = await handleUpdate(value, currentRow);
+
+					if (success) {
+						handleUpdateModalVisible(false);
+						setCurrentRow(undefined);
+
+						if (actionRef.current) {
+							actionRef.current.reload();
+						}
+					}
+				}}
+			/>
 		</PageContainer>
 	);
 };

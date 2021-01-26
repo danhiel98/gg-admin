@@ -29,7 +29,7 @@ export async function queryAvailableDelete(record_key) {
 	});
 }
 export async function queryCustomer(params) {
-	console.log(params);
+	// console.log(params);
 
 	let customers = request('/api/customer', {
 		params,
