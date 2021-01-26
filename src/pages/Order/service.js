@@ -1,25 +1,30 @@
-import request from '@/utils/request';
+import { app, firestore, storage } from '@/utils/firebaseConfig';
+let ref = firestore.collection('orders');
 
-export async function queryRule(params) {
-  return request('/api/rule', {
-    params,
-  });
+export async function queryOrder(params) {
+	let response = {
+		current: params.current,
+		pageSize: params.pageSize,
+		total: 0,
+		data: [],
+		success: true
+	};
+
+	await ref.get().then((qs) => {
+		response.total = qs.size;
+		qs.forEach(doc => {
+			response.data.push({ key: doc.id, ...doc.data() })
+		})
+	});
+
+	return response;
 }
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'delete' },
-  });
+export async function removeOrder(params) {
+
 }
-export async function addRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'post' },
-  });
+export async function addOrder(params) {
+
 }
-export async function updateRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'update' },
-  });
+export async function updateOrder(params) {
+
 }
