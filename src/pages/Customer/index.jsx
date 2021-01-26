@@ -8,7 +8,7 @@ import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-desi
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
-import { queryCustomer, updateCustomer, addCustomer, removeCustomer } from './service';
+import { queryCustomer, updateCustomer, addCustomer, removeCustomer, queryAvailableDelete } from './service';
 
 const handleAdd = async (fields) => {
 	const hide = message.loading('Agregando');
@@ -68,9 +68,35 @@ const handleRemove = async (selectedRows) => {
 	}
 };
 
+const verifyDelete = async (record) => {
+	const hide = message.loading("Verificando...");
+
+	try {
+		let available = await queryAvailableDelete(record.key);
+		hide();
+
+		if (available) {
+
+		} else {
+			message.warn('Este cliente no se puede eliminar')
+		}
+	} catch (error) {
+		message.error('Ocurrió un error inesperado al eliminar el cliente')
+	}
+	// this.contratosCliente(record).then((size) => {
+	// 	message.destroy();
+	// 	if (size === 0) this.confirmEliminar(record);
+	// 	else if (size === 1)
+	// 		message.error(
+	// 			"No se puede eliminar este cliente porque ya tiene contratos"
+	// 		);
+	// });
+};
+
 const TableList = () => {
 	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
+	const [deleteModalVisible, handleDeleteModalVisible] = useState(false); // Modal para eliminar
 	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
 
 	const actionRef = useRef();
@@ -169,7 +195,7 @@ const TableList = () => {
 				<a
 					key="delete"
 					onClick={() => {
-						console.log('Me quieres eliminar ¿Acaso no sabes quien soy?');
+						verifyDelete(record);
 					}}
 				>
 					<FormattedMessage id="pages.customer.delete" defaultMessage="Delete" />
@@ -296,6 +322,14 @@ const TableList = () => {
 					}
 				}}
 			/>
+
+			{/* <DeleteModal
+				visible={deleteModalVisible}
+				visibleChange={() => {
+
+				}}
+				record={currentRow}
+			/> */}
 
 			<Drawer
 				width={600}

@@ -1,7 +1,32 @@
 import request from '@/utils/request';
 import { app, firestore, storage } from '@/utils/firebaseConfig';
+let orderRef = firestore.collection('orders');
 let ref = firestore.collection('customers');
 
+export async function queryAvailableDelete(record_key) {
+	let result = false;
+
+	return new Promise((resolve, reject) => {
+		ref.doc(record_key)
+		.get()
+		.then(async (doc) => {
+			if (doc.exists) {
+				await orderRef.where('customer_ref', '==', doc.ref)
+				.limitToLast()
+				.get()
+				.then((qs) => {
+					if (qs.size == 0) {
+						result = true;
+					}
+				})
+			}
+			resolve(result);
+		})
+		.catch((error) => {
+			reject(error);
+		})
+	})
+}
 export async function queryCustomer(params) {
 
 	console.log(params);
