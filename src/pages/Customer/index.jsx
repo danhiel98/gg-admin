@@ -1,10 +1,9 @@
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Modal, Button, message, Input, Drawer, Radio } from 'antd';
+import { Modal, Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
@@ -18,8 +17,14 @@ import {
 
 const { confirm } = Modal;
 
+/**
+ * Add customer
+ *
+ * @param fields
+ */
+
 const handleAdd = async (fields) => {
-	const hide = message.loading('Agregando');
+	const hide = message.loading('Cargando');
 
 	try {
 		await addCustomer({ ...fields });
@@ -32,8 +37,9 @@ const handleAdd = async (fields) => {
 		return false;
 	}
 };
+
 /**
- * 更新节点
+ * Update customer
  *
  * @param fields
  * @param record
@@ -53,8 +59,9 @@ const handleUpdate = async (fields, record) => {
 		return false;
 	}
 };
+
 /**
- * 删除节点
+ * Remove customer
  *
  * @param record
  */
@@ -91,24 +98,19 @@ const verifyDelete = async (record) => {
 const TableList = () => {
 	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
-	const [deleteModalVisible, handleDeleteModalVisible] = useState(false); // Modal para eliminar
 	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
 
 	const actionRef = useRef();
 	const [currentRow, setCurrentRow] = useState(); // Registro seleccionado
-	const [selectedRowsState, setSelectedRows] = useState([]); // No sé, xd
+	const [selectedRowsState, setSelectedRows] = useState([]);
 
 	const intl = useIntl();
 	const columns = [
 		{
 			title: (
-				<FormattedMessage
-					id="pages.customer.updateForm.customerName.nameLabel"
-					defaultMessage="Nombre del cliente"
-				/>
+				<FormattedMessage id="pages.customer.titleName" defaultMessage="Customer Name" />
 			),
 			dataIndex: 'name',
-			tip: 'Nombre de cliente',
 			render: (dom, entity) => {
 				return (
 					<a
@@ -148,7 +150,7 @@ const TableList = () => {
 				casual: {
 					text: (
 						<FormattedMessage
-							id="pages.customer.nameType.casual"
+							id="pages.customer.type.casualType"
 							defaultMessage="Casual"
 						/>
 					),
@@ -157,7 +159,7 @@ const TableList = () => {
 				frecuente: {
 					text: (
 						<FormattedMessage
-							id="pages.customer.nameType.frequent"
+							id="pages.customer.type.frequentType"
 							defaultMessage="Frequent"
 						/>
 					),
@@ -167,7 +169,10 @@ const TableList = () => {
 		},
 		{
 			title: (
-				<FormattedMessage id="pages.customer.ordersAmount" defaultMessage="Orders Amount" />
+				<FormattedMessage
+					id="pages.customer.titleOrdersAmount"
+					defaultMessage="Orders Amount"
+				/>
 			),
 			sorter: true,
 			dataIndex: 'orders_amount',
@@ -254,7 +259,7 @@ const TableList = () => {
 				<FooterToolbar
 					extra={
 						<div>
-							<FormattedMessage id="pages.customer.chosen" defaultMessage="已选择" />{' '}
+							<FormattedMessage id="pages.customer.chosen" defaultMessage="chosen" />{' '}
 							<a
 								style={{
 									fontWeight: 600,
@@ -262,17 +267,17 @@ const TableList = () => {
 							>
 								{selectedRowsState.length}
 							</a>{' '}
-							<FormattedMessage id="pages.customer.item" defaultMessage="项" />
+							<FormattedMessage id="pages.customer.item" defaultMessage="item" />
 							&nbsp;&nbsp;
 							<span>
 								<FormattedMessage
 									id="pages.customer.totalServiceCalls"
-									defaultMessage="服务调用次数总计"
+									defaultMessage="Total Number of Service Calls"
 								/>{' '}
 								{selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)}{' '}
 								<FormattedMessage
 									id="pages.customer.tenThousand"
-									defaultMessage="万"
+									defaultMessage="0000"
 								/>
 							</span>
 						</div>
@@ -334,7 +339,7 @@ const TableList = () => {
 						handleUpdateModalVisible(false);
 						setCurrentRow(undefined);
 						if (showDetail) {
-							setShowDetail(false)
+							setShowDetail(false);
 						}
 
 						if (actionRef.current) {
@@ -345,7 +350,7 @@ const TableList = () => {
 			/>
 
 			<Drawer
-				placement='bottom'
+				placement="bottom"
 				visible={showDetail}
 				onClose={() => {
 					setCurrentRow(undefined);

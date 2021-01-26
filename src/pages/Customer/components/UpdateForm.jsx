@@ -67,7 +67,7 @@ const UpdateForm = (props) => {
 				<ProFormText
 					name="name"
 					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.nameLabel',
+						id: 'pages.customer.Form.customerName.nameLabel',
 						defaultMessage: 'Name',
 					})}
 					rules={[
@@ -85,16 +85,16 @@ const UpdateForm = (props) => {
 				<ProFormText
 					name="phone_number"
 					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.phoneLabel',
-						defaultMessage: 'Name',
+						id: 'pages.customer.Form.customerPhone.phoneLabel',
+						defaultMessage: 'Phone number',
 					})}
 					rules={[
 						{
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.customer.Form.customerName.phoneRules"
-									defaultMessage="Name required!"
+									id="pages.customer.Form.customerPhone.phoneRules"
+									defaultMessage="Phone number required!"
 								/>
 							),
 						},
@@ -103,7 +103,7 @@ const UpdateForm = (props) => {
 				<ProFormTextArea
 					name="address"
 					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerName.addressLabel',
+						id: 'pages.customer.Form.customerAddress.addressLabel',
 						defaultMessage: 'Address',
 					})}
 					rules={[
@@ -111,7 +111,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.customer.Form.customerName.addressRules"
+									id="pages.customer.Form.customerAddress.addressRules"
 									defaultMessage="Name required!"
 								/>
 							),
@@ -121,7 +121,7 @@ const UpdateForm = (props) => {
 				<ProFormRadio.Group
 					name="type"
 					label={intl.formatMessage({
-						id: 'pages.customer.updateForm.customerProps.typeLabel',
+						id: 'pages.customer.Form.customerType.typeLabel',
 						defaultMessage: 'Customer type',
 					})}
 					rules={[
@@ -129,7 +129,7 @@ const UpdateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.customer.Form.customerName.typeRules"
+									id="pages.customer.Form.customerType.typeRules"
 									defaultMessage="Customer type required!"
 								/>
 							),
@@ -138,11 +138,17 @@ const UpdateForm = (props) => {
 					options={[
 						{
 							value: 'casual',
-							label: 'Casual',
+							label: intl.formatMessage({
+								id: 'pages.customer.Form.customerType.casualType',
+								defaultMessage: 'Casual',
+							}),
 						},
 						{
 							value: 'frecuente',
-							label: 'Frecuente',
+							label: intl.formatMessage({
+								id: 'pages.customer.Form.customerType.frequentType',
+								defaultMessage: 'Frequent',
+							}),
 						},
 					]}
 				/>
