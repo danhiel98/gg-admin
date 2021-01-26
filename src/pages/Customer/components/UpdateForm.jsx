@@ -40,6 +40,11 @@ const UpdateForm = (props) => {
 				}
 			}}
 			formRef={formRef}
+			submitter={{
+				render: (_, dom) => {
+					dom.pop()
+				}
+			}}
 		>
 			<Modal
 				title={intl.formatMessage({
@@ -65,7 +70,6 @@ const UpdateForm = (props) => {
 						id: 'pages.customer.updateForm.customerName.nameLabel',
 						defaultMessage: 'Name',
 					})}
-					width="md"
 					rules={[
 						{
 							required: true,
@@ -84,7 +88,6 @@ const UpdateForm = (props) => {
 						id: 'pages.customer.updateForm.customerName.phoneLabel',
 						defaultMessage: 'Name',
 					})}
-					width="md"
 					rules={[
 						{
 							required: true,
@@ -103,7 +106,6 @@ const UpdateForm = (props) => {
 						id: 'pages.customer.updateForm.customerName.addressLabel',
 						defaultMessage: 'Address',
 					})}
-					width="md"
 					rules={[
 						{
 							required: true,

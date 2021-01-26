@@ -29,7 +29,7 @@ const CreateForm = (props) => {
 			formRef={formRef}
 			title={intl.formatMessage({
 				id: 'pages.customer.updateForm.newCustomer',
-				defaultMessage: 'New/Update Customer',
+				defaultMessage: 'New Customer',
 			})}
 			layout="horizontal"
 			width="400px"
@@ -49,7 +49,6 @@ const CreateForm = (props) => {
 					id: 'pages.customer.updateForm.customerName.nameLabel',
 					defaultMessage: 'Name',
 				})}
-				width="md"
 				rules={[
 					{
 						required: true,
@@ -68,7 +67,6 @@ const CreateForm = (props) => {
 					id: 'pages.customer.updateForm.customerName.phoneLabel',
 					defaultMessage: 'Name',
 				})}
-				width="md"
 				rules={[
 					{
 						required: true,
@@ -87,7 +85,6 @@ const CreateForm = (props) => {
 					id: 'pages.customer.updateForm.customerName.addressLabel',
 					defaultMessage: 'Address',
 				})}
-				width="md"
 				rules={[
 					{
 						required: true,

@@ -8,7 +8,13 @@ import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-desi
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
-import { queryCustomer, updateCustomer, addCustomer, removeCustomer, queryAvailableDelete } from './service';
+import {
+	queryCustomer,
+	updateCustomer,
+	addCustomer,
+	removeCustomer,
+	queryAvailableDelete,
+} from './service';
 
 const { confirm } = Modal;
 
@@ -70,13 +76,13 @@ const handleRemove = async (record) => {
 
 const verifyDelete = async (record) => {
 	let available = false;
-	const hide = message.loading("Verificando...");
+	const hide = message.loading('Verificando...');
 
 	try {
 		available = await queryAvailableDelete(record.key);
 		hide();
 	} catch (error) {
-		message.error('Ocurrió un error inesperado al eliminar el cliente')
+		message.error('Ocurrió un error inesperado al eliminar el cliente');
 	}
 
 	return available;
@@ -188,11 +194,11 @@ const TableList = () => {
 
 						if (available) {
 							confirm({
-								title: "¿Está seguro que desea eliminar este cliente?",
+								title: '¿Está seguro que desea eliminar este cliente?',
 								icon: <ExclamationCircleOutlined />,
-								content: "Eliminar información de cliente",
-								okText: "Sí",
-								cancelText: "No",
+								content: 'Eliminar información del cliente',
+								okText: 'Sí',
+								cancelText: 'No',
 								onOk: async () => {
 									let success = await handleRemove(record);
 
@@ -200,7 +206,7 @@ const TableList = () => {
 										if (actionRef.current) {
 											actionRef.current.reload();
 										}
-										return  true;
+										return true;
 									}
 								},
 							});
@@ -307,19 +313,45 @@ const TableList = () => {
 						if (actionRef.current) {
 							actionRef.current.reload();
 						}
-						return  true;
+						return true;
+					}
+				}}
+			/>
+
+			<UpdateForm
+				visible={updateModalVisible}
+				record={currentRow || {}}
+				onCancel={() => {
+					handleUpdateModalVisible(false);
+					if (!showDetail) {
+						setCurrentRow(undefined);
+					}
+				}}
+				onFinish={async (value) => {
+					const success = await handleUpdate(value, currentRow);
+
+					if (success) {
+						handleUpdateModalVisible(false);
+						setCurrentRow(undefined);
+						if (showDetail) {
+							setShowDetail(false)
+						}
+
+						if (actionRef.current) {
+							actionRef.current.reload();
+						}
 					}
 				}}
 			/>
 
 			<Drawer
-				width={600}
-				visible={showDetail && currentRow}
+				placement='bottom'
+				visible={showDetail}
 				onClose={() => {
 					setCurrentRow(undefined);
 					setShowDetail(false);
 				}}
-				closable={true}
+				closable={false}
 			>
 				{currentRow?.name && (
 					<ProDescriptions
@@ -335,27 +367,6 @@ const TableList = () => {
 					/>
 				)}
 			</Drawer>
-
-			<UpdateForm
-				visible={updateModalVisible}
-				record={currentRow || {}}
-				onCancel={() => {
-					handleUpdateModalVisible(false);
-          			setCurrentRow(undefined);
-				}}
-				onFinish={async (value) => {
-					const success = await handleUpdate(value, currentRow);
-
-					if (success) {
-						handleUpdateModalVisible(false);
-						setCurrentRow(undefined);
-
-						if (actionRef.current) {
-							actionRef.current.reload();
-						}
-					}
-				}}
-			/>
 		</PageContainer>
 	);
 };
