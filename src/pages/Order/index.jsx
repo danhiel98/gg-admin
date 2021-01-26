@@ -9,6 +9,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
+import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
 
 const handleAdd = async (fields) => {
 	const hide = message.loading('Agregando');
@@ -163,7 +164,7 @@ const Order = () => {
 			dataIndex: 'deadline',
 			render: (value, record) => {
 				return (
-					<strong>{value.toDate().toLocaleDateString('es-SV', { year: "numeric", month: "short", day: 'numeric' })}</strong>
+					<strong>{dateFromTimestamp(value)}</strong>
 				);
 			},
 		},
@@ -175,7 +176,7 @@ const Order = () => {
 			dataIndex: 'total',
 			render: (value, record) => {
 				return (
-					<strong>$ {value}</strong>
+					<strong>{currencyFormat(value)}</strong>
 				);
 			}
 		},
@@ -187,7 +188,7 @@ const Order = () => {
 			dataIndex: 'remaining',
 			render: (value, record) => {
 				return (
-					<strong>$ {value}</strong>
+					<strong>{currencyFormat(value)}</strong>
 				);
 			}
 		},
