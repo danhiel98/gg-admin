@@ -8,27 +8,27 @@ export async function queryAvailableDelete(record_key) {
 
 	return new Promise((resolve, reject) => {
 		ref.doc(record_key)
-		.get()
-		.then(async (doc) => {
-			if (doc.exists) {
-				await orderRef.where('customer_ref', '==', doc.ref)
-				.limitToLast()
-				.get()
-				.then((qs) => {
-					if (qs.size == 0) {
-						result = true;
-					}
-				})
-			}
-			resolve(result);
-		})
-		.catch((error) => {
-			reject(error);
-		})
-	})
+			.get()
+			.then(async (doc) => {
+				if (doc.exists) {
+					await orderRef
+						.where('customer_ref', '==', doc.ref)
+						.limitToLast()
+						.get()
+						.then((qs) => {
+							if (qs.size == 0) {
+								result = true;
+							}
+						});
+				}
+				resolve(result);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
 }
 export async function queryCustomer(params) {
-
 	console.log(params);
 
 	let customers = request('/api/customer', {
@@ -40,25 +40,38 @@ export async function queryCustomer(params) {
 		pageSize: params.pageSize,
 		total: 0,
 		data: [],
-		success: true
+		success: true,
 	};
 
-	await ref.get().then((qs) => {
-		response.total = qs.size;
-		qs.forEach(doc => {
-			response.data.push({ key: doc.id, ...doc.data() })
-		})
-	});
+	await ref
+		.where('deleted', '==', false)
+		.get()
+		.then((qs) => {
+			response.total = qs.size;
+			qs.forEach((doc) => {
+				response.data.push({ key: doc.id, ...doc.data() });
+			});
+		});
 
 	console.log(response);
 	customers.then((r) => console.log(r));
 	return response;
 }
-export async function removeCustomer(params) {
-	return request('/api/customer', {
-		method: 'POST',
-		data: { ...params, method: 'delete' },
+export async function removeCustomer(record) {
+	return new Promise((resolve, reject) => {
+		ref.doc(record.key)
+			.update({ deleted: true })
+			.then(() => {
+				resolve(record)
+			})
+			.catch((error) => {
+				reject(error);
+			});
 	});
+	// return request('/api/customer', {
+	// 	method: 'POST',
+	// 	data: { ...params, method: 'delete' },
+	// });
 }
 export async function addCustomer(params) {
 	let now = app.firestore.FieldValue.serverTimestamp();
@@ -66,31 +79,30 @@ export async function addCustomer(params) {
 	return new Promise((resolve, reject) => {
 		ref.add({
 			created_at: now,
+			deleted: false,
 			orders_amount: 0,
 			total_paid: 0,
 			updated_at: now,
 			user_id: null, // Revisar
-			...params
+			...params,
 		})
-		.then((docRef) => {
-			resolve(docRef);
-		})
-		.catch((error) => {
-			reject(error);
-		});
-	})
+			.then((docRef) => {
+				resolve(docRef);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
 }
 export async function updateCustomer(params, record) {
 	return new Promise((resolve, reject) => {
-		console.log(record.key, params);
-
 		ref.doc(record.key)
-		.update(params)
-		.then(() => {
-			resolve('¡Registro actualizado correctamente!')
-		})
-		.catch((error) => {
-			reject(error)
-		})
-	})
+			.update(params)
+			.then(() => {
+				resolve(record);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
 }

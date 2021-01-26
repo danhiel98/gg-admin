@@ -1,5 +1,5 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio } from 'antd';
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Modal, Button, message, Input, Drawer, Radio } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -9,6 +9,8 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 import { queryCustomer, updateCustomer, addCustomer, removeCustomer, queryAvailableDelete } from './service';
+
+const { confirm } = Modal;
 
 const handleAdd = async (fields) => {
 	const hide = message.loading('Agregando');
@@ -28,6 +30,7 @@ const handleAdd = async (fields) => {
  * 更新节点
  *
  * @param fields
+ * @param record
  */
 
 const handleUpdate = async (fields, record) => {
@@ -47,17 +50,14 @@ const handleUpdate = async (fields, record) => {
 /**
  * 删除节点
  *
- * @param selectedRows
+ * @param record
  */
 
-const handleRemove = async (selectedRows) => {
+const handleRemove = async (record) => {
 	const hide = message.loading('Cargando');
-	if (!selectedRows) return true;
 
 	try {
-		await removeCustomer({
-			key: selectedRows.map((row) => row.key),
-		});
+		await removeCustomer(record);
 		hide();
 		message.success('¡Cliente eliminado correctamente!');
 		return true;
@@ -69,28 +69,17 @@ const handleRemove = async (selectedRows) => {
 };
 
 const verifyDelete = async (record) => {
+	let available = false;
 	const hide = message.loading("Verificando...");
 
 	try {
-		let available = await queryAvailableDelete(record.key);
+		available = await queryAvailableDelete(record.key);
 		hide();
-
-		if (available) {
-
-		} else {
-			message.warn('Este cliente no se puede eliminar')
-		}
 	} catch (error) {
 		message.error('Ocurrió un error inesperado al eliminar el cliente')
 	}
-	// this.contratosCliente(record).then((size) => {
-	// 	message.destroy();
-	// 	if (size === 0) this.confirmEliminar(record);
-	// 	else if (size === 1)
-	// 		message.error(
-	// 			"No se puede eliminar este cliente porque ya tiene contratos"
-	// 		);
-	// });
+
+	return available;
 };
 
 const TableList = () => {
@@ -194,8 +183,28 @@ const TableList = () => {
 				</a>,
 				<a
 					key="delete"
-					onClick={() => {
-						verifyDelete(record);
+					onClick={async () => {
+						let available = await verifyDelete(record);
+
+						if (available) {
+							confirm({
+								title: "¿Está seguro que desea eliminar este cliente?",
+								icon: <ExclamationCircleOutlined />,
+								content: "Eliminar información de cliente",
+								okText: "Sí",
+								cancelText: "No",
+								onOk: async () => {
+									let success = await handleRemove(record);
+
+									if (success) {
+										if (actionRef.current) {
+											actionRef.current.reload();
+										}
+										return  true;
+									}
+								},
+							});
+						}
 					}}
 				>
 					<FormattedMessage id="pages.customer.delete" defaultMessage="Delete" />
