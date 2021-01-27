@@ -7,9 +7,9 @@ import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
-import UpdateForm from './components/UpdateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
+// import HtmlToReact from "html-to-react";
 
 const handleAdd = async (fields) => {
 	const hide = message.loading('Agregando');
@@ -25,11 +25,6 @@ const handleAdd = async (fields) => {
 		return false;
 	}
 };
-/**
- * 更新节点
- *
- * @param fields
- */
 
 const handleUpdate = async (fields, record) => {
 	const hide = message.loading('Cargando');
@@ -45,11 +40,6 @@ const handleUpdate = async (fields, record) => {
 		return false;
 	}
 };
-/**
- * 删除节点
- *
- * @param selectedRows
- */
 
 const handleRemove = async (selectedRows) => {
 	const hide = message.loading('Cargando');
@@ -81,7 +71,7 @@ const Order = () => {
 	const intl = useIntl();
 	const columns = [
 		{
-			title: <FormattedMessage id="pages.order.titleAddress" defaultMessage="Title" />,
+			title: <FormattedMessage id="pages.order.titleTitle" defaultMessage="Title" />,
 			dataIndex: 'title',
 			render: (dom, entity) => {
 				return (
@@ -97,14 +87,8 @@ const Order = () => {
 			},
 		},
 		{
-			title: (
-				<FormattedMessage
-					id="pages.order.updateForm.customerName.nameLabel"
-					defaultMessage="Nombre del cliente"
-				/>
-			),
+			title: <FormattedMessage id="pages.order.titleCustomer" defaultMessage="Customer" />,
 			dataIndex: 'customer',
-			tip: 'Nombre de cliente',
 			render: (dom, entity) => {
 				return (
 					<a
@@ -120,7 +104,7 @@ const Order = () => {
 		},
 		{
 			title: (
-				<FormattedMessage id="pages.order.titleType" defaultMessage="Order Status" />
+				<FormattedMessage id="pages.order.titleOrderStatus" defaultMessage="Order Status" />
 			),
 			dataIndex: 'status',
 			hideInForm: true,
@@ -128,7 +112,7 @@ const Order = () => {
 				pendiente: {
 					text: (
 						<FormattedMessage
-							id="pages.order.nameType.pending"
+							id="pages.order.status.pending"
 							defaultMessage="Pending"
 						/>
 					),
@@ -137,7 +121,7 @@ const Order = () => {
 				entregado: {
 					text: (
 						<FormattedMessage
-							id="pages.order.nameType.delivered"
+							id="pages.order.status.delivered"
 							defaultMessage="Delivered"
 						/>
 					),
@@ -146,51 +130,36 @@ const Order = () => {
 				cancelado: {
 					text: (
 						<FormattedMessage
-							id="pages.order.nameType.cancelled"
+							id="pages.order.status.cancelled"
 							defaultMessage="Cancelled"
 						/>
 					),
-					status: 'Success',
-				}
+					status: 'Warning',
+				},
 			},
 		},
 		{
-			title: (
-				<FormattedMessage
-					id="pages.order.titleDeadline"
-					defaultMessage="Deadline"
-				/>
-			),
+			title: <FormattedMessage id="pages.order.titleDeadline" defaultMessage="Deadline" />,
 			dataIndex: 'deadline',
-			render: (value, record) => {
-				return (
-					<strong>{dateFromTimestamp(value)}</strong>
-				);
+			render: (value) => {
+				return <strong>{dateFromTimestamp(value)}</strong>;
 			},
 		},
 		{
-			title: (
-				<FormattedMessage id="pages.order.ordersAmount" defaultMessage="Total" />
-			),
+			title: <FormattedMessage id="pages.order.titleTotal" defaultMessage="Total" />,
 			sorter: true,
 			dataIndex: 'total',
-			render: (value, record) => {
-				return (
-					<strong>{currencyFormat(value)}</strong>
-				);
-			}
+			render: (value) => {
+				return <strong>{currencyFormat(value)}</strong>;
+			},
 		},
 		{
-			title: (
-				<FormattedMessage id="pages.order.ordersAmount" defaultMessage="Remaining" />
-			),
+			title: <FormattedMessage id="pages.order.titleRemaining" defaultMessage="Remaining" />,
 			sorter: true,
 			dataIndex: 'remaining',
-			render: (value, record) => {
-				return (
-					<strong>{currencyFormat(value)}</strong>
-				);
-			}
+			render: (value) => {
+				return <strong>{currencyFormat(value)}</strong>;
+			},
 		},
 		{
 			title: <FormattedMessage id="pages.order.titleOption" defaultMessage="Option" />,
@@ -217,6 +186,21 @@ const Order = () => {
 			],
 		},
 	];
+
+	const detailColumns = columns.slice(0);
+
+	detailColumns.push({
+		title: <FormattedMessage id="pages.order.titleDetails" defaultMessage="Details" />,
+		dataIndex: 'details',
+		render: (value) => (
+			<div
+				dangerouslySetInnerHTML={{
+					__html: value
+				}}
+			/>
+		)
+	});
+
 	return (
 		<PageContainer>
 			<ProTable
@@ -249,7 +233,7 @@ const Order = () => {
 					},
 				}}
 			/>
-			<CreateForm
+			{/* <CreateForm
 				visible={createModalVisible}
 				visibleChange={() => {
 					handleModalVisible(!createModalVisible);
@@ -264,51 +248,31 @@ const Order = () => {
 						if (actionRef.current) {
 							actionRef.current.reload();
 						}
-						return  true;
+						return true;
 					}
 				}}
-			/>
-			<UpdateForm
-				visible={updateModalVisible}
-				visibleChange={() => {
-					handleUpdateModalVisible(!updateModalVisible);
-					setCurrentRow(undefined);
-				}}
-				record={currentRow || {}}
-				onFinish={async (value) => {
-					const success = await handleUpdate(value, currentRow);
-
-					if (success) {
-						handleUpdateModalVisible(false);
-						setCurrentRow(undefined);
-
-						if (actionRef.current) {
-							actionRef.current.reload();
-						}
-					}
-				}}
-			/>
+			/> */}
 
 			<Drawer
-				width={600}
+				placement="bottom"
 				visible={showDetail && currentRow}
 				onClose={() => {
 					setCurrentRow(undefined);
 					setShowDetail(false);
 				}}
-				closable={true}
+				closable={false}
 			>
-				{currentRow?.name && (
+				{currentRow?.title && (
 					<ProDescriptions
 						column={2}
-						title={currentRow?.name}
+						title={currentRow?.title}
 						request={async () => ({
 							data: currentRow || {},
 						})}
 						params={{
-							id: currentRow?.name,
+							id: currentRow?.title,
 						}}
-						columns={columns}
+						columns={detailColumns}
 					/>
 				)}
 			</Drawer>

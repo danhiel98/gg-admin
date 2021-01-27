@@ -1,7 +1,6 @@
 export default {
 	// Login
-	'pages.layouts.userLayout.title':
-		'Please enter the required data',
+	'pages.layouts.userLayout.title': 'Please enter the required data',
 	'pages.login.accountLogin.errorMessage': 'Incorrect username/password',
 	'pages.login.username.placeholder': 'Username',
 	'pages.login.username.required': 'Please input your username!',
@@ -19,6 +18,17 @@ export default {
 	'pages.customer.title': 'Enquiry Form',
 	'pages.customer.new': 'New',
 
+	'pages.customer.titleName': 'Customer Name',
+	'pages.customer.titleAddress': 'Address',
+	'pages.customer.titlePhoneNumber': 'Phone Number',
+	'pages.customer.titleOrdersAmount': 'Orders Amount',
+	'pages.customer.titleType': 'Type',
+	'pages.customer.type.casualType': 'Casual',
+	'pages.customer.type.frequentType': 'Frequent',
+	'pages.customer.titleOption': 'Option',
+	'pages.customer.edit': 'Edit',
+	'pages.customer.delete': 'Delete',
+
 	'pages.customer.createForm.newCustomer': 'New Customer',
 	'pages.customer.updateForm.updateCustomer': 'Update Customer',
 	'pages.customer.Form.customerName.nameLabel': 'Customer Name',
@@ -32,14 +42,21 @@ export default {
 	'pages.customer.Form.customerType.casualType': 'Casual',
 	'pages.customer.Form.customerType.frequentType': 'Frequent',
 
-	'pages.customer.titleName': 'Customer Name',
-	'pages.customer.titleAddress': 'Address',
-	'pages.customer.titlePhoneNumber': 'Phone Number',
-	'pages.customer.titleOrdersAmount': 'Orders Amount',
-	'pages.customer.titleType': 'Type',
-	'pages.customer.type.casualType': 'Casual',
-	'pages.customer.type.frequentType': 'Frequent',
-	'pages.customer.titleOption': 'Option',
-	'pages.customer.edit': 'Edit',
-	'pages.customer.delete': 'Delete',
+	// Pedidos
+	'pages.order.title': 'Enquiry Form',
+	'pages.order.new': 'New',
+
+	'pages.order.titleTitle': 'Title',
+	'pages.order.titleDetails': 'Details',
+	'pages.order.titleCustomer': 'Customer',
+	'pages.order.titleOrderStatus': 'Order Status',
+	'pages.order.status.pending': 'Pending',
+	'pages.order.status.delivered': 'Delivered',
+	'pages.order.status.cancelled': 'Cancelled',
+	'pages.order.titleDeadline': 'Deadline',
+	'pages.order.titleTotal': 'Total',
+	'pages.order.titleRemaining': 'Remaining',
+	'pages.order.titleOption': 'Option',
+	'pages.order.edit': 'Edit',
+	'pages.order.delete': 'Delete',
 };

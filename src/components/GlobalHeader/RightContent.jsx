@@ -16,14 +16,14 @@ const GlobalHeaderRight = (props) => {
 	let className = styles.right;
 
 	if (theme === 'dark' && layout === 'top') {
-		className = `${styles.right}  ${styles.dark}`;
+		className = `${styles.right} ${styles.dark}`;
 	}
 
 	return (
 		<div className={className}>
 			<HeaderSearch
 				className={`${styles.action} ${styles.search}`}
-				placeholder="Buscar"
+				placeholder="Search"
 				// defaultValue="umi ui"
 				// options={[
 				// 	{

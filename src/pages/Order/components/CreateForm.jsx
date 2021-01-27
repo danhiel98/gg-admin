@@ -28,8 +28,8 @@ const CreateForm = (props) => {
 		<ModalForm
 			formRef={formRef}
 			title={intl.formatMessage({
-				id: 'pages.customer.updateForm.newCustomer',
-				defaultMessage: 'New/Update Customer',
+				id: 'pages.customer.updateForm.newOrder',
+				defaultMessage: 'New Order',
 			})}
 			layout="horizontal"
 			width="400px"
@@ -43,7 +43,7 @@ const CreateForm = (props) => {
 				props.onFinish(value);
 			}}
 		>
-			<ProFormText
+			{/* <ProFormText
 				name="name"
 				label={intl.formatMessage({
 					id: 'pages.customer.updateForm.customerName.nameLabel',
@@ -127,7 +127,7 @@ const CreateForm = (props) => {
 						label: 'Frecuente',
 					},
 				]}
-			/>
+			/> */}
 		</ModalForm>
 	);
 };
