@@ -6,6 +6,7 @@ import {
 	ProFormRadio,
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
+import JoditEditor from "jodit-react";
 
 const CreateForm = (props) => {
 	const formRef = useRef();
@@ -28,11 +29,10 @@ const CreateForm = (props) => {
 		<ModalForm
 			formRef={formRef}
 			title={intl.formatMessage({
-				id: 'pages.customer.updateForm.newOrder',
+				id: 'pages.order.Form.newOrder',
 				defaultMessage: 'New Order',
 			})}
 			layout="horizontal"
-			width="400px"
 			visible={props.visible}
 			onVisibleChange={(state) => {
 				if (!state) {
@@ -43,10 +43,10 @@ const CreateForm = (props) => {
 				props.onFinish(value);
 			}}
 		>
-			{/* <ProFormText
+			<ProFormText
 				name="name"
 				label={intl.formatMessage({
-					id: 'pages.customer.updateForm.customerName.nameLabel',
+					id: 'pages.order.updateForm.orderName.nameLabel',
 					defaultMessage: 'Name',
 				})}
 				width="md"
@@ -55,7 +55,7 @@ const CreateForm = (props) => {
 						required: true,
 						message: (
 							<FormattedMessage
-								id="pages.customer.Form.customerName.nameRules"
+								id="pages.order.Form.orderName.nameRules"
 								defaultMessage="Name required!"
 							/>
 						),
@@ -65,7 +65,7 @@ const CreateForm = (props) => {
 			<ProFormText
 				name="phone_number"
 				label={intl.formatMessage({
-					id: 'pages.customer.updateForm.customerName.phoneLabel',
+					id: 'pages.order.updateForm.orderName.phoneLabel',
 					defaultMessage: 'Name',
 				})}
 				width="md"
@@ -74,7 +74,7 @@ const CreateForm = (props) => {
 						required: true,
 						message: (
 							<FormattedMessage
-								id="pages.customer.Form.customerName.phoneRules"
+								id="pages.order.Form.orderName.phoneRules"
 								defaultMessage="Name required!"
 							/>
 						),
@@ -84,7 +84,7 @@ const CreateForm = (props) => {
 			<ProFormTextArea
 				name="address"
 				label={intl.formatMessage({
-					id: 'pages.customer.updateForm.customerName.addressLabel',
+					id: 'pages.order.updateForm.orderName.addressLabel',
 					defaultMessage: 'Address',
 				})}
 				width="md"
@@ -93,7 +93,7 @@ const CreateForm = (props) => {
 						required: true,
 						message: (
 							<FormattedMessage
-								id="pages.customer.Form.customerName.addressRules"
+								id="pages.order.Form.orderName.addressRules"
 								defaultMessage="Name required!"
 							/>
 						),
@@ -103,7 +103,7 @@ const CreateForm = (props) => {
 			<ProFormRadio.Group
 				name="type"
 				label={intl.formatMessage({
-					id: 'pages.customer.updateForm.customerProps.typeLabel',
+					id: 'pages.order.updateForm.orderProps.typeLabel',
 					defaultMessage: 'Customer type',
 				})}
 				rules={[
@@ -111,7 +111,7 @@ const CreateForm = (props) => {
 						required: true,
 						message: (
 							<FormattedMessage
-								id="pages.customer.Form.customerName.typeRules"
+								id="pages.order.Form.orderName.typeRules"
 								defaultMessage="Customer type required!"
 							/>
 						),
@@ -127,7 +127,7 @@ const CreateForm = (props) => {
 						label: 'Frecuente',
 					},
 				]}
-			/> */}
+			/>
 		</ModalForm>
 	);
 };

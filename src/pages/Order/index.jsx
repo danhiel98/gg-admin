@@ -9,7 +9,6 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
-// import HtmlToReact from "html-to-react";
 
 const handleAdd = async (fields) => {
 	const hide = message.loading('Agregando');
@@ -233,7 +232,7 @@ const Order = () => {
 					},
 				}}
 			/>
-			{/* <CreateForm
+			<CreateForm
 				visible={createModalVisible}
 				visibleChange={() => {
 					handleModalVisible(!createModalVisible);
@@ -251,7 +250,7 @@ const Order = () => {
 						return true;
 					}
 				}}
-			/> */}
+			/>
 
 			<Drawer
 				placement="bottom"

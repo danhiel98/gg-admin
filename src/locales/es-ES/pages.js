@@ -59,4 +59,6 @@ export default {
 	'pages.order.titleOption': 'Opciones',
 	'pages.order.edit': 'Editar',
 	'pages.order.delete': 'Eliminar',
+
+	'pages.order.Form.newOrder': 'Nuevo Pedido',
 };
