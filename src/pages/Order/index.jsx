@@ -110,28 +110,34 @@ const Order = () => {
 			valueEnum: {
 				pendiente: {
 					text: (
-						<FormattedMessage
-							id="pages.order.status.pending"
-							defaultMessage="Pending"
-						/>
+						<strong>
+							<FormattedMessage
+								id="pages.order.status.pending"
+								defaultMessage="Pending"
+							/>
+						</strong>
 					),
 					status: 'Default',
 				},
 				entregado: {
 					text: (
-						<FormattedMessage
-							id="pages.order.status.delivered"
-							defaultMessage="Delivered"
-						/>
+						<strong>
+							<FormattedMessage
+								id="pages.order.status.delivered"
+								defaultMessage="Delivered"
+							/>
+						</strong>
 					),
 					status: 'Success',
 				},
 				cancelado: {
 					text: (
-						<FormattedMessage
-							id="pages.order.status.cancelled"
-							defaultMessage="Cancelled"
-						/>
+						<strong>
+							<FormattedMessage
+								id="pages.order.status.cancelled"
+								defaultMessage="Cancelled"
+							/>
+						</strong>
 					),
 					status: 'Warning',
 				},
@@ -194,10 +200,10 @@ const Order = () => {
 		render: (value) => (
 			<div
 				dangerouslySetInnerHTML={{
-					__html: value
+					__html: value,
 				}}
 			/>
-		)
+		),
 	});
 
 	return (
