@@ -61,4 +61,18 @@ export default {
 	'pages.order.delete': 'Eliminar',
 
 	'pages.order.Form.newOrder': 'Nuevo Pedido',
+	'pages.order.Form.orderTitle.orderTitleLabel': 'Título',
+	'pages.order.Form.orderTitle.orderTitleRules': '¡Por favor, ingrese un título!',
+	'pages.order.Form.customer.customerLabel': 'Cliente',
+	'pages.order.Form.customer.customerRules': '¡Por favor, seleccione un cliente!',
+	'pages.order.Form.receivedDate.receivedDateLabel': 'Fecha de recibido',
+	'pages.order.Form.receivedDate.receivedDateRules': '¡Por favor, seleccione la fecha!',
+	'pages.order.Form.deadline.deadlineLabel': 'Fecha de entrega',
+	'pages.order.Form.deadline.deadlineRules': '¡Por favor, seleccione la fecha!',
+	'pages.order.Form.total.totalLabel': 'Total',
+	'pages.order.Form.total.totalRules': '¡Por favor, introduzca el total!',
+	'pages.order.Form.firstPayment.firstPaymentLabel': 'Abono',
+	'pages.order.Form.firstPayment.firstPaymentRules': '¡Por favor, introduzca el abono!',
+	'pages.order.Form.itemTypes.itemTypesLabel': 'Tipo de elementos',
+	'pages.order.Form.itemTypes.itemTypesRules': '¡Por favor, seleccione al menos un tipo de elementos!',
 };

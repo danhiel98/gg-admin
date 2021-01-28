@@ -48,7 +48,7 @@ const CreateForm = (props) => {
 				<ProFormText
 					name="title"
 					label={intl.formatMessage({
-						id: 'pages.order.Form.orderTitle.titleLabel',
+						id: 'pages.order.Form.orderTitle.orderTitleLabel',
 						defaultMessage: 'Order Title',
 					})}
 					width="md"
@@ -57,7 +57,7 @@ const CreateForm = (props) => {
 							required: true,
 							message: (
 								<FormattedMessage
-									id="pages.order.Form.orderTitle.titleRules"
+									id="pages.order.Form.orderTitle.orderTitleRules"
 									defaultMessage="Title required!"
 								/>
 							),
@@ -91,7 +91,7 @@ const CreateForm = (props) => {
 						},
 					]}
 					width="md"
-					name="useMode"
+					name="customer_ref"
 					label={intl.formatMessage({
 						id: 'pages.order.Form.customer.customerLabel',
 						defaultMessage: 'Customer',
@@ -119,6 +119,17 @@ const CreateForm = (props) => {
 						id: 'pages.order.Form.receivedDate.receivedDateLabel',
 						defaultMessage: 'Received Date',
 					})}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.order.Form.receivedDate.receivedDateRules"
+									defaultMessage="Enter the received date!"
+								/>
+							),
+						},
+					]}
 				/>
 			</ProForm.Group>
 			<ProForm.Group>
@@ -133,12 +144,24 @@ const CreateForm = (props) => {
 						id: 'pages.order.Form.deadline.deadlineLabel',
 						defaultMessage: 'Deadline',
 					})}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.order.Form.deadline.deadlineRules"
+									defaultMessage="Enter the deadline!"
+								/>
+							),
+						},
+					]}
 				/>
 				<ProFormDigit
 					label={intl.formatMessage({
 						id: 'pages.order.Form.total.totalLabel',
 						defaultMessage: 'Total',
 					})}
+					required
 					name="total"
 					width="xs"
 					min={1}
@@ -148,12 +171,24 @@ const CreateForm = (props) => {
 						parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
 						step: 0.01,
 					}}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.order.Form.total.totalRules"
+									defaultMessage="Total amount is required!"
+								/>
+							),
+						},
+					]}
 				/>
 				<ProFormDigit
 					label={intl.formatMessage({
 						id: 'pages.order.Form.firstPayment.firstPaymentLabel',
 						defaultMessage: 'Payment',
 					})}
+					required
 					name="first_payment"
 					width="xs"
 					min={1}
@@ -163,6 +198,17 @@ const CreateForm = (props) => {
 						parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
 						step: 0.01,
 					}}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.order.Form.firstPayment.firstPaymentRules"
+									defaultMessage="Payment amount required!"
+								/>
+							),
+						},
+					]}
 				/>
 			</ProForm.Group>
 			<ProForm.Group style={{ textAlign: 'center' }}>
@@ -170,7 +216,7 @@ const CreateForm = (props) => {
 					required
 					mode="tags"
 					formItemProps={{
-						requiredMark: 'optional',
+						// requiredMark: 'optional',
 					}}
 					options={[
 						{

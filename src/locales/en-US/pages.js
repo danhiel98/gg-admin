@@ -61,4 +61,18 @@ export default {
 	'pages.order.delete': 'Delete',
 
 	'pages.order.Form.newOrder': 'New Order',
+	'pages.order.Form.orderTitle.orderTitleLabel': 'Title',
+	'pages.order.Form.orderTitle.orderTitleRules': 'Please enter the order title',
+	'pages.customer.Form.customer.customerLabel': 'Customer',
+	'pages.customer.Form.customer.customerRules': 'Please select a customer!',
+	'pages.order.Form.receivedDate.receivedDateLabel': 'Received Date',
+	'pages.order.Form.receivedDate.receivedDateRules': 'Please select the received date!',
+	'pages.order.Form.deadline.deadlineLabel': 'Deadline',
+	'pages.order.Form.deadline.deadlineRules': 'Please select the deadline!',
+	'pages.order.Form.total.totalLabel': 'Total',
+	'pages.order.Form.total.totalRules': 'Please enter the total!',
+	'pages.order.Form.firstPayment.firstPaymentLabel': 'First Payment',
+	'pages.order.Form.firstPayment.firstPaymentRules': 'Please enter the first payment amount!',
+	'pages.order.Form.itemTypes.itemTypesLabel': 'Item Types',
+	'pages.order.Form.itemTypes.itemTypesRules': 'Pleae select at least one item type!',
 };
