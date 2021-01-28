@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProForm, {
 	ModalForm,
 	ProFormText,
@@ -7,11 +7,15 @@ import ProForm, {
 	ProFormDigit,
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
+import 'jodit';
+import 'jodit/build/jodit.min.css';
 import JoditEditor from 'jodit-react';
 
 const CreateForm = (props) => {
 	const formRef = useRef();
+	const editorRef = useRef();
 	const intl = useIntl();
+	const [content, setContent] = useState("");
 
 	const resetFields = () => {
 		formRef.current.setFieldsValue({
@@ -110,7 +114,7 @@ const CreateForm = (props) => {
 				/>
 				<ProFormDatePicker
 					fieldProps={{
-						inputReadOnly: 'true',
+						inputReadOnly: true,
 					}}
 					width="70px"
 					required
@@ -135,7 +139,7 @@ const CreateForm = (props) => {
 			<ProForm.Group>
 				<ProFormDatePicker
 					fieldProps={{
-						inputReadOnly: 'true',
+						inputReadOnly: true,
 					}}
 					required
 					name="deadline"
@@ -215,9 +219,11 @@ const CreateForm = (props) => {
 				<ProFormSelect
 					required
 					mode="tags"
-					formItemProps={{
-						// requiredMark: 'optional',
-					}}
+					formItemProps={
+						{
+							// requiredMark: 'optional',
+						}
+					}
 					options={[
 						{
 							value: 'camisas',
@@ -259,6 +265,14 @@ const CreateForm = (props) => {
 					]}
 				/>
 			</ProForm.Group>
+			<JoditEditor
+				ref={editorRef}
+				value={content}
+				config={{ readonly: false }}
+				onBlur={(ev) => {
+					setContent(ev.target.innerHTML)
+				}}
+			/>
 		</ModalForm>
 	);
 };
