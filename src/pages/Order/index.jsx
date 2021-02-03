@@ -10,11 +10,11 @@ import CreateForm from './components/CreateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
 
-const handleAdd = async (fields) => {
+const handleAdd = async (fields, attachments) => {
 	const hide = message.loading('Agregando');
 
 	try {
-		await addOrder({ ...fields });
+		await addOrder({ ...fields }, attachments);
 		hide();
 		message.success('¡Registro agregado correctamente!');
 		return true;
@@ -244,8 +244,8 @@ const Order = () => {
 					handleModalVisible(!createModalVisible);
 				}}
 				record={currentRow || null}
-				onFinish={async (value) => {
-					const success = await handleAdd(value);
+				onFinish={async (data, attachments) => {
+					const success = await handleAdd(data, attachments);
 
 					if (success) {
 						handleModalVisible(false);

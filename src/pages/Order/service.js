@@ -22,8 +22,15 @@ export async function queryOrder(params) {
 export async function removeOrder(params) {
 
 }
-export async function addOrder(params) {
-
+export async function addOrder(params, attachments) {
+	// ref.add(params)
+	// .then(ref => {
+	// 	console.log('Regstro insertado.');
+	// 	console.log(`Document id: ${ref.id}`);
+	// })
+	// console.log('Parámetros/adjuntos:')
+	// console.log(params);
+	// console.log(attachments);
 }
 export async function updateOrder(params) {
 

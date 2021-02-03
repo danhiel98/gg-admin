@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { message } from 'antd';
 import ProForm, {
 	ModalForm,
 	ProFormText,
@@ -10,12 +11,16 @@ import { useIntl, FormattedMessage } from 'umi';
 import 'jodit';
 import 'jodit/build/jodit.min.css';
 import JoditEditor from 'jodit-react';
+import ImageUploader from 'react-images-upload';
+import { queryCustomerSelect } from '../../Customer/service';
 
 const CreateForm = (props) => {
 	const formRef = useRef();
 	const editorRef = useRef();
 	const intl = useIntl();
-	const [content, setContent] = useState("");
+	const [content, setContent] = useState('');
+	const [images, setImages] = useState([]);
+	const [params, setParams] = useState({});
 
 	const resetFields = () => {
 		formRef.current.setFieldsValue({
@@ -29,6 +34,10 @@ const CreateForm = (props) => {
 	useEffect(() => {
 		resetFields();
 	});
+
+	const onDrop = (pictureFiles, pictureDataURLs) => {
+		setImages(pictureFiles);
+	};
 
 	return (
 		<ModalForm
@@ -45,8 +54,16 @@ const CreateForm = (props) => {
 				}
 			}}
 			onFinish={(value) => {
-				props.onFinish(value);
+				console.log(value);
+				return;
+				if (content.innerText === '') {
+					message.error('¡Debe introducir una descripción!');
+					return;
+				}
+
+				props.onFinish({ ...value, description: content.innerHTML }, {images});
 			}}
+			width="lg"
 		>
 			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ProFormText
@@ -55,7 +72,7 @@ const CreateForm = (props) => {
 						id: 'pages.order.Form.orderTitle.orderTitleLabel',
 						defaultMessage: 'Order Title',
 					})}
-					width="md"
+					width="lg"
 					rules={[
 						{
 							required: true,
@@ -68,8 +85,6 @@ const CreateForm = (props) => {
 						},
 					]}
 				/>
-			</ProForm.Group>
-			<ProForm.Group>
 				<ProFormSelect // Se deben obtener los primeros 5 últimos clientes insertados, sino que busque
 					formItemProps={
 						{
@@ -80,20 +95,21 @@ const CreateForm = (props) => {
 						onSearch: (val) => console.log(`Search: ${val}`),
 					}}
 					showSearch
-					options={[
-						{
-							value: 'juan',
-							label: 'Juan Argueta',
-						},
-						{
-							value: 'carlos',
-							label: 'Carlos Orellana',
-						},
-						{
-							value: 'marla',
-							label: 'Marla Amado',
-						},
-					]}
+					// options={[
+					// 	{
+					// 		value: 'juan',
+					// 		label: 'Juan Argueta',
+					// 	},
+					// 	{
+					// 		value: 'carlos',
+					// 		label: 'Carlos Orellana',
+					// 	},
+					// 	{
+					// 		value: 'marla',
+					// 		label: 'Marla Amado',
+					// 	},
+					// ]}
+					request={() => { queryCustomerSelect(params) }}
 					width="md"
 					name="customer_ref"
 					label={intl.formatMessage({
@@ -112,6 +128,8 @@ const CreateForm = (props) => {
 						},
 					]}
 				/>
+			</ProForm.Group>
+			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ProFormDatePicker
 					fieldProps={{
 						inputReadOnly: true,
@@ -135,8 +153,6 @@ const CreateForm = (props) => {
 						},
 					]}
 				/>
-			</ProForm.Group>
-			<ProForm.Group>
 				<ProFormDatePicker
 					fieldProps={{
 						inputReadOnly: true,
@@ -215,6 +231,8 @@ const CreateForm = (props) => {
 					]}
 				/>
 			</ProForm.Group>
+			{/* <ProForm.Group>
+			</ProForm.Group> */}
 			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ProFormSelect
 					required
@@ -247,7 +265,7 @@ const CreateForm = (props) => {
 						},
 					]}
 					width="md"
-					name="itemTypes"
+					name="item_types"
 					label={intl.formatMessage({
 						id: 'pages.order.Form.itemTypes.itemTypesLabel',
 						defaultMessage: 'Item Types',
@@ -267,12 +285,111 @@ const CreateForm = (props) => {
 			</ProForm.Group>
 			<JoditEditor
 				ref={editorRef}
-				value={content}
-				config={{ readonly: false }}
+				value={content.innerHTML}
+				config={{
+					enableDragAndDropFileToEditor: true,
+					readonly: false,
+					language: 'es',
+					buttons: [
+						'fullsize',
+						'|',
+						'paragraph',
+						'fontsize',
+						'font',
+						'|',
+						'bold',
+						'italic',
+						'strikethrough',
+						'brush',
+						'eraser',
+						'|',
+						'ul',
+						'ol',
+						'align',
+						'|',
+						'link',
+						'hr',
+						'table',
+						'|',
+						'undo',
+						'redo',
+						'selectall',
+						'|',
+						'preview',
+					],
+					buttonsMD: [
+						'fullsize',
+						'|',
+						'paragraph',
+						'fontsize',
+						'font',
+						'|',
+						'bold',
+						'italic',
+						'strikethrough',
+						'brush',
+						'eraser',
+						'|',
+						'ul',
+						'ol',
+						'align',
+						'|',
+						'link',
+						'hr',
+						'table',
+						'|',
+						'undo',
+						'redo',
+						'selectall',
+						'|',
+						'preview',
+					],
+					buttonsXS: [
+						'fullsize',
+						'|',
+						'paragraph',
+						'fontsize',
+						'font',
+						'|',
+						'bold',
+						'italic',
+						'strikethrough',
+						'brush',
+						'eraser',
+						'|',
+						'ul',
+						'ol',
+						'align',
+						'|',
+						'link',
+						'hr',
+						'table',
+						'|',
+						'undo',
+						'redo',
+						'|',
+						'preview',
+					],
+					uploader: {
+						insertImageAsBase64URI: true,
+					},
+				}}
 				onBlur={(ev) => {
-					setContent(ev.target.innerHTML)
+					setContent(ev.target);
 				}}
 			/>
+			<ProForm.Group style={{ textAlign: 'center' }}>
+				<ImageUploader
+					style={{ width: 600 }}
+					withIcon={true}
+					buttonText="Adjuntar imágenes"
+					label={``}
+					onChange={onDrop}
+					imgExtension={['.jpg', '.jpeg', '.gif', '.png', '.gif']}
+					withPreview={true}
+					maxFileSize={10242880}
+				/>
+			</ProForm.Group>
 		</ModalForm>
 	);
 };

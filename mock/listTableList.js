@@ -103,6 +103,7 @@ function getCustomer(req, res, u) {
 }
 
 function postCustomer(req, res, u, b) {
+	console.log(req);
 	let realUrl = u;
 
 	if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
