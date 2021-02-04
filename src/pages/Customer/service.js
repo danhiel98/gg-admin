@@ -1,9 +1,10 @@
 import request from '@/utils/request';
 import { app, firestore, storage } from '@/utils/firebaseConfig';
+const DOCUMENT = 'customers';
 let orderRef = firestore.collection('orders');
-let ref = firestore.collection('customers');
 
 export async function queryAvailableDelete(record_key) {
+	let ref = firestore.collection(DOCUMENT);
 	let result = false;
 
 	return new Promise((resolve, reject) => {
@@ -29,24 +30,26 @@ export async function queryAvailableDelete(record_key) {
 	});
 }
 
-export async function queryCustomerSelect(params) {
+export async function queryCustomerSelect() {
+	let ref = firestore.collection(DOCUMENT);
 	let data = [];
 
-	return new Promise(async (resolve, reject) => {
-		await ref
-			.where('deleted', '==', false)
-			.get()
-			.then((qs) => {
-				qs.forEach((doc) => {
-					data.push({ label: doc.data().name,  value: doc.id });
-				});
-				resolve(data);
-			})
-			.catch((error) => reject(error))
-	})
+	await ref
+		.where('deleted', '==', false)
+		.get()
+		.then((qs) => {
+			qs.forEach((doc) => {
+				data.push({ label: doc.data().name, value: doc.id, ref: doc.ref});
+			});
+		})
+		.catch((error) => error);
+
+	console.log(data);
+	return data;
 }
 
 export async function queryCustomer(params) {
+	let ref = firestore.collection(DOCUMENT);
 	let customers = request('/api/customer', {
 		params,
 	});
@@ -75,11 +78,12 @@ export async function queryCustomer(params) {
 }
 
 export async function removeCustomer(record) {
+	let ref = firestore.collection(DOCUMENT);
 	return new Promise((resolve, reject) => {
 		ref.doc(record.key)
 			.update({ deleted: true })
 			.then(() => {
-				resolve(record)
+				resolve(record);
 			})
 			.catch((error) => {
 				reject(error);
@@ -92,6 +96,7 @@ export async function removeCustomer(record) {
 }
 
 export async function addCustomer(params) {
+	let ref = firestore.collection(DOCUMENT);
 	let now = app.firestore.FieldValue.serverTimestamp();
 
 	return new Promise((resolve, reject) => {
@@ -114,6 +119,7 @@ export async function addCustomer(params) {
 }
 
 export async function updateCustomer(params, record) {
+	let ref = firestore.collection(DOCUMENT);
 	return new Promise((resolve, reject) => {
 		ref.doc(record.key)
 			.update(params)

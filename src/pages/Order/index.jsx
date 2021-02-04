@@ -196,7 +196,7 @@ const Order = () => {
 
 	detailColumns.push({
 		title: <FormattedMessage id="pages.order.titleDetails" defaultMessage="Details" />,
-		dataIndex: 'details',
+		dataIndex: 'description',
 		render: (value) => (
 			<div
 				dangerouslySetInnerHTML={{
@@ -266,6 +266,7 @@ const Order = () => {
 					setShowDetail(false);
 				}}
 				closable={false}
+				height={500}
 			>
 				{currentRow?.title && (
 					<ProDescriptions

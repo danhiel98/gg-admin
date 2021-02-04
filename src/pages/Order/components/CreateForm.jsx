@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import ProForm, {
 	ModalForm,
 	ProFormText,
@@ -7,6 +7,7 @@ import ProForm, {
 	ProFormDatePicker,
 	ProFormDigit,
 } from '@ant-design/pro-form';
+// import locale from "antd/es/date-picker/locale/es_ES";
 import { useIntl, FormattedMessage } from 'umi';
 import 'jodit';
 import 'jodit/build/jodit.min.css';
@@ -14,13 +15,16 @@ import JoditEditor from 'jodit-react';
 import ImageUploader from 'react-images-upload';
 import { queryCustomerSelect } from '../../Customer/service';
 
+const dateFormat = 'DD-MM-YYYY';
+
 const CreateForm = (props) => {
 	const formRef = useRef();
 	const editorRef = useRef();
 	const intl = useIntl();
 	const [content, setContent] = useState('');
+	const [customers, setCustomers] = useState([]);
+	const [loadingCustomers, setLoadingCustomers] = useState(false);
 	const [images, setImages] = useState([]);
-	const [params, setParams] = useState({});
 
 	const resetFields = () => {
 		formRef.current.setFieldsValue({
@@ -35,12 +39,24 @@ const CreateForm = (props) => {
 		resetFields();
 	});
 
+	useEffect(() => {
+		if (props.visible) {
+			setLoadingCustomers(true);
+			queryCustomerSelect()
+				.then((data) => {
+					setCustomers(data);
+				})
+				.finally(() => setLoadingCustomers(false));
+		}
+	}, [props.visible]);
+
 	const onDrop = (pictureFiles, pictureDataURLs) => {
 		setImages(pictureFiles);
 	};
 
 	return (
 		<ModalForm
+			lang='english'
 			formRef={formRef}
 			title={intl.formatMessage({
 				id: 'pages.order.Form.newOrder',
@@ -50,18 +66,20 @@ const CreateForm = (props) => {
 			visible={props.visible}
 			onVisibleChange={(state) => {
 				if (!state) {
+					// editorRef.destruct();
 					props.visibleChange();
 				}
 			}}
 			onFinish={(value) => {
-				console.log(value);
-				return;
-				if (content.innerText === '') {
-					message.error('¡Debe introducir una descripción!');
-					return;
+				try {
+					if (!content.innerText) throw new Error('¡Debe introducir una descripción!');
+					if (value.total < value.first_payment) throw new Error('¡El total no debe ser menor al adelanto');
+
+					props.onFinish({ ...value, description: content.innerHTML }, { images });
+				} catch (error) {
+					message.error(error.message);
 				}
 
-				props.onFinish({ ...value, description: content.innerHTML }, {images});
 			}}
 			width="lg"
 		>
@@ -69,6 +87,10 @@ const CreateForm = (props) => {
 				<ProFormText
 					name="title"
 					label={intl.formatMessage({
+						id: 'pages.order.Form.orderTitle.orderTitleLabel',
+						defaultMessage: 'Order Title',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.orderTitle.orderTitleLabel',
 						defaultMessage: 'Order Title',
 					})}
@@ -92,27 +114,21 @@ const CreateForm = (props) => {
 						}
 					}
 					fieldProps={{
-						onSearch: (val) => console.log(`Search: ${val}`),
+						// onSearch: handleSearch,
+						optionFilterProp: 'children',
+						filterOption: (input, option) =>
+							option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0,
 					}}
+					notFoundContent={loadingCustomers ? <Spin size="small" /> : null}
 					showSearch
-					// options={[
-					// 	{
-					// 		value: 'juan',
-					// 		label: 'Juan Argueta',
-					// 	},
-					// 	{
-					// 		value: 'carlos',
-					// 		label: 'Carlos Orellana',
-					// 	},
-					// 	{
-					// 		value: 'marla',
-					// 		label: 'Marla Amado',
-					// 	},
-					// ]}
-					request={() => { queryCustomerSelect(params) }}
+					options={customers}
 					width="md"
-					name="customer_ref"
+					name="customer_id"
 					label={intl.formatMessage({
+						id: 'pages.order.Form.customer.customerLabel',
+						defaultMessage: 'Customer',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.customer.customerLabel',
 						defaultMessage: 'Customer',
 					})}
@@ -133,11 +149,16 @@ const CreateForm = (props) => {
 				<ProFormDatePicker
 					fieldProps={{
 						inputReadOnly: true,
+						format: dateFormat
 					}}
 					width="70px"
 					required
 					name="received_at"
 					label={intl.formatMessage({
+						id: 'pages.order.Form.receivedDate.receivedDateLabel',
+						defaultMessage: 'Received Date',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.receivedDate.receivedDateLabel',
 						defaultMessage: 'Received Date',
 					})}
@@ -156,11 +177,16 @@ const CreateForm = (props) => {
 				<ProFormDatePicker
 					fieldProps={{
 						inputReadOnly: true,
+						format: dateFormat
 					}}
 					required
 					name="deadline"
 					width="70px"
 					label={intl.formatMessage({
+						id: 'pages.order.Form.deadline.deadlineLabel',
+						defaultMessage: 'Deadline',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.deadline.deadlineLabel',
 						defaultMessage: 'Deadline',
 					})}
@@ -178,6 +204,10 @@ const CreateForm = (props) => {
 				/>
 				<ProFormDigit
 					label={intl.formatMessage({
+						id: 'pages.order.Form.total.totalLabel',
+						defaultMessage: 'Total',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.total.totalLabel',
 						defaultMessage: 'Total',
 					})}
@@ -208,6 +238,10 @@ const CreateForm = (props) => {
 						id: 'pages.order.Form.firstPayment.firstPaymentLabel',
 						defaultMessage: 'Payment',
 					})}
+					placeholder={intl.formatMessage({
+						id: 'pages.order.Form.firstPayment.firstPaymentLabel',
+						defaultMessage: 'Payment',
+					})}
 					required
 					name="first_payment"
 					width="xs"
@@ -231,8 +265,6 @@ const CreateForm = (props) => {
 					]}
 				/>
 			</ProForm.Group>
-			{/* <ProForm.Group>
-			</ProForm.Group> */}
 			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ProFormSelect
 					required
@@ -263,10 +295,18 @@ const CreateForm = (props) => {
 							value: 'uniformes',
 							label: 'Uniformes',
 						},
+						{
+							value: 'lanyards',
+							label: 'Lanyards',
+						},
 					]}
 					width="md"
 					name="item_types"
 					label={intl.formatMessage({
+						id: 'pages.order.Form.itemTypes.itemTypesLabel',
+						defaultMessage: 'Item Types',
+					})}
+					placeholder={intl.formatMessage({
 						id: 'pages.order.Form.itemTypes.itemTypesLabel',
 						defaultMessage: 'Item Types',
 					})}
