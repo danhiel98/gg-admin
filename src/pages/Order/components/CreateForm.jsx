@@ -7,7 +7,7 @@ import ProForm, {
 	ProFormDatePicker,
 	ProFormDigit,
 } from '@ant-design/pro-form';
-// import locale from "antd/es/date-picker/locale/es_ES";
+
 import { useIntl, FormattedMessage } from 'umi';
 import 'jodit';
 import 'jodit/build/jodit.min.css';
@@ -28,10 +28,13 @@ const CreateForm = (props) => {
 
 	const resetFields = () => {
 		formRef.current.setFieldsValue({
-			name: '',
-			phone_number: '',
-			address: '',
-			type: '',
+			title: 'Order Title',
+			customer_id: customers.length > 0 ? customers[0].value : null,
+			total: 100,
+			first_payment: 50,
+			received_at: '2020-02-09',
+			deadline: '2020-02-20',
+			item_types: ['Azulejos', 'Gorras']
 		});
 	};
 
@@ -56,12 +59,12 @@ const CreateForm = (props) => {
 
 	return (
 		<ModalForm
-			lang='english'
 			formRef={formRef}
 			title={intl.formatMessage({
 				id: 'pages.order.Form.newOrder',
 				defaultMessage: 'New Order',
 			})}
+			width
 			layout="horizontal"
 			visible={props.visible}
 			onVisibleChange={(state) => {
@@ -81,7 +84,6 @@ const CreateForm = (props) => {
 				}
 
 			}}
-			width="lg"
 		>
 			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ProFormText
@@ -94,7 +96,7 @@ const CreateForm = (props) => {
 						id: 'pages.order.Form.orderTitle.orderTitleLabel',
 						defaultMessage: 'Order Title',
 					})}
-					width="lg"
+					width="md"
 					rules={[
 						{
 							required: true,

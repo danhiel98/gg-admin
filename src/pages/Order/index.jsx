@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio } from 'antd';
+import { Button, message, Input, Drawer, Radio, Row, Col } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -9,6 +9,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
+import renderHTML from 'react-render-html';
 
 const handleAdd = async (fields, attachments) => {
 	const hide = message.loading('Agregando');
@@ -195,14 +196,13 @@ const Order = () => {
 	const detailColumns = columns.slice(0);
 
 	detailColumns.push({
-		title: <FormattedMessage id="pages.order.titleDetails" defaultMessage="Details" />,
+		span: 2,
+		title: '',
 		dataIndex: 'description',
 		render: (value) => (
-			<div
-				dangerouslySetInnerHTML={{
-					__html: value,
-				}}
-			/>
+			<div className="html-content">
+				{renderHTML(value)}
+			</div>
 		),
 	});
 
@@ -266,10 +266,11 @@ const Order = () => {
 					setShowDetail(false);
 				}}
 				closable={false}
-				height={500}
+				height={450}
 			>
 				{currentRow?.title && (
 					<ProDescriptions
+						layout="horizontal"
 						column={2}
 						title={currentRow?.title}
 						request={async () => ({

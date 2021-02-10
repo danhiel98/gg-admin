@@ -1,5 +1,7 @@
+import { zeroPad } from '@/utils/utils';
 import { app, firestore, storage } from '@/utils/firebaseConfig';
 let ref = firestore.collection('orders');
+let storageRef = storage.ref();
 let customerRef = firestore.collection('customers');
 
 export async function queryOrder(params) {
@@ -22,6 +24,7 @@ export async function queryOrder(params) {
 }
 export async function removeOrder(params) {}
 export async function addOrder(params, attachments) {
+
 	try {
 
 		let {
@@ -44,8 +47,6 @@ export async function addOrder(params, attachments) {
 
 		await customerRef.doc(customer_id).get().then((doc) => (customer = doc.exists ? {...doc.data(), ref: doc.ref} : null));
 
-		console.log(customer);
-
 		let order = {
 			customer_ref: customer.ref,
 			customer: customer.name,
@@ -63,11 +64,21 @@ export async function addOrder(params, attachments) {
 			user_id: null,
 		}
 
-		console.log(order);
-
 		ref.add(order).then((ref) => {
-			console.log('Regstro insertado.');
-			console.log(`Document id: ${ref.id}`);
+			if (attachments && attachments.images) {
+				let images = attachments.images;
+				let filename = undefined;
+				let fileRef = undefined;
+
+				images.forEach((img, idx) => {
+					filename = `${ref.id} - ${zeroPad(idx + 1, 2)}${img.name.substr(img.name.lastIndexOf('.'))}`;
+					fileRef = storageRef.child(`images/${filename}`);
+					fileRef.put(img).then((snap) => {
+						console.log(snap);
+						console.log('Imagen subida!');
+					});
+				})
+			}
 		});
 	}
 	catch (error) {

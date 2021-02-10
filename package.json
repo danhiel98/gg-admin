@@ -67,6 +67,7 @@
 		"react-images-upload": "^1.2.8",
 		"react-images-uploader": "^1.2.0-rc1",
 		"react-progress-button": "^5.1.0",
+		"react-render-html": "^0.6.0",
 		"umi": "^3.2.14",
 		"umi-request": "^1.0.8"
 	},
