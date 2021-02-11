@@ -69,13 +69,20 @@ export async function addOrder(params, attachments) {
 				let images = attachments.images;
 				let filename = undefined;
 				let fileRef = undefined;
+				let fullPath = undefined;
 
+				console.log('Order addes');
 				images.forEach((img, idx) => {
 					filename = `${ref.id} - ${zeroPad(idx + 1, 2)}${img.name.substr(img.name.lastIndexOf('.'))}`;
-					fileRef = storageRef.child(`images/${filename}`);
+					fullPath = `images/${filename}`;
+					fileRef = storageRef.child(fullPath);
 					fileRef.put(img).then((snap) => {
-						console.log(snap);
-						console.log('Imagen subida!');
+						snap.ref.getDownloadURL().then(function(downloadURL) {
+							console.log(downloadURL);
+							ref.update({
+								images: app.firestore.FieldValue.arrayUnion(downloadURL)
+							})
+						});
 					});
 				})
 			}
