@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer, Radio, Row, Col } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -10,6 +10,8 @@ import CreateForm from './components/CreateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
 import renderHTML from 'react-render-html';
+import Gallery from 'react-photo-gallery';
+import Carousel, { Modal, ModalGateway } from 'react-images';
 
 const handleAdd = async (fields, attachments) => {
 	const hide = message.loading('Agregando');
@@ -63,10 +65,37 @@ const Order = () => {
 	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
 	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
+	const [photos, setPhotos] = useState([]);
+	const [currentImage, setCurrentImage] = useState(0);
+	const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
 	const actionRef = useRef();
 	const [currentRow, setCurrentRow] = useState(); // Registro seleccionado
 	const [selectedRowsState, setSelectedRows] = useState([]); // No sé, xd
+
+	const openLightbox = useCallback((event, { photo, index }) => {
+		setCurrentImage(index);
+		setViewerIsOpen(true);
+	}, []);
+
+	const closeLightbox = () => {
+		setCurrentImage(0);
+		setViewerIsOpen(false);
+	};
+
+	const activeData = (entity) => {
+		setCurrentRow(entity);
+
+		setPhotos(entity.images.map(img => {
+			let obj = {
+				src: img,
+				width: 1,
+				height: 1,
+			}
+
+			return obj;
+		}))
+	}
 
 	const intl = useIntl();
 	const columns = [
@@ -77,7 +106,7 @@ const Order = () => {
 				return (
 					<a
 						onClick={() => {
-							setCurrentRow(entity);
+							activeData(entity);
 							setShowDetail(true);
 						}}
 					>
@@ -93,7 +122,7 @@ const Order = () => {
 				return (
 					<a
 						onClick={() => {
-							setCurrentRow(entity);
+							activeData(entity);
 							setShowDetail(true);
 						}}
 					>
@@ -171,11 +200,11 @@ const Order = () => {
 			title: <FormattedMessage id="pages.order.titleOption" defaultMessage="Option" />,
 			dataIndex: 'option',
 			valueType: 'option',
-			render: (_, record) => [
+			render: (_, entity) => [
 				<a
 					key="edit"
 					onClick={() => {
-						setCurrentRow(record);
+						activeData(entity);
 						handleUpdateModalVisible(true);
 					}}
 				>
@@ -192,19 +221,6 @@ const Order = () => {
 			],
 		},
 	];
-
-	const detailColumns = columns.slice(0);
-
-	detailColumns.push({
-		span: 2,
-		title: '',
-		dataIndex: 'description',
-		render: (value) => (
-			<div className="html-content">
-				{renderHTML(value)}
-			</div>
-		),
-	});
 
 	return (
 		<PageContainer>
@@ -269,18 +285,40 @@ const Order = () => {
 				height={450}
 			>
 				{currentRow?.title && (
-					<ProDescriptions
-						layout="horizontal"
-						column={2}
-						title={currentRow?.title}
-						request={async () => ({
-							data: currentRow || {},
-						})}
-						params={{
-							id: currentRow?.title,
-						}}
-						columns={detailColumns}
-					/>
+					<div>
+						<ProDescriptions
+							layout="horizontal"
+							column={2}
+							title={currentRow?.title}
+							request={async () => ({
+								data: currentRow || {},
+							})}
+							params={{
+								id: currentRow?.title,
+							}}
+							columns={columns}
+						/>
+						<div style={{ border: '1px solid #d7cece', padding: 10 }}>
+							{renderHTML(currentRow.description)}
+						</div>
+						<div style={{ width: photos.length <= 4 ? 500 : 800, alignItems: 'center' }}>
+							<Gallery margin={20} photos={photos} onClick={openLightbox} />
+						</div>
+						<ModalGateway>
+							{viewerIsOpen ? (
+								<Modal onClose={closeLightbox}>
+									<Carousel
+										currentIndex={currentImage}
+										views={photos.map((x) => ({
+											...x,
+											srcset: x.srcSet,
+											caption: x.title,
+										}))}
+									/>
+								</Modal>
+							) : null}
+						</ModalGateway>
+					</div>
 				)}
 			</Drawer>
 		</PageContainer>
