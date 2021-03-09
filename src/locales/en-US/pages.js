@@ -13,6 +13,7 @@ export default {
 	'pages.login.rememberMe': 'Remember me',
 	'pages.login.forgotPassword': 'Forgot Password?',
 	'pages.login.submit': 'Submit',
+	'pages.login.loginAsGuest': 'Login As Guest',
 
 	// Clientes
 	'pages.customer.title': 'Enquiry Form',

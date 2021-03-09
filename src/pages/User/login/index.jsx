@@ -1,14 +1,8 @@
-import {
-	LockTwoTone,
-	MailTwoTone,
-	MobileTwoTone,
-	UserOutlined,
-} from '@ant-design/icons';
-import { Alert, message } from 'antd';
+import { LockTwoTone, UserOutlined } from '@ant-design/icons';
+import { Alert } from 'antd';
 import React, { useState } from 'react';
-import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import { useIntl, connect, FormattedMessage } from 'umi';
-import { getFakeCaptcha } from '@/services/login';
+import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import { Link, useIntl, connect, FormattedMessage } from 'umi';
 import styles from './index.less';
 
 const LoginMessage = ({ content }) => (
@@ -19,6 +13,7 @@ const LoginMessage = ({ content }) => (
 		message={content}
 		type="error"
 		showIcon
+		closable
 	/>
 );
 
@@ -32,7 +27,7 @@ const Login = (props) => {
 		const { dispatch } = props;
 
 		dispatch({
-			type: 'login/login',
+			type: 'login/login', // namespace/effect en modelo login
 			payload: { ...values, type },
 		});
 	};
@@ -47,8 +42,6 @@ const Login = (props) => {
 					render: (_, dom) => dom.pop(),
 					submitButtonProps: {
 						id: 'pages.login.submit',
-						title: 'Iniciar sesión',
-						value: 'Iniciar sesión',
 						loading: submitting,
 						size: 'large',
 						style: {
@@ -58,10 +51,9 @@ const Login = (props) => {
 				}}
 				onFinish={(values) => {
 					handleSubmit(values);
-					return Promise.resolve();
 				}}
 			>
-				{status === 'error' && loginType === 'account' && !submitting && (
+				{status === 'error' && type === 'account' && !submitting && (
 					<LoginMessage
 						content={intl.formatMessage({
 							id: 'pages.login.accountLogin.errorMessage',
@@ -69,139 +61,54 @@ const Login = (props) => {
 						})}
 					/>
 				)}
-				{type === 'account' && (
-					<>
-						<ProFormText
-							name="userName"
-							fieldProps={{
-								size: 'large',
-								prefix: <UserOutlined className={styles.prefixIcon} />,
-							}}
-							placeholder={intl.formatMessage({
-								id: 'pages.login.username.placeholder',
-								defaultMessage: 'Nombre de usuario requerido',
-							})}
-							rules={[
-								{
-									required: true,
-									message: (
-										<FormattedMessage
-											id="pages.login.username.required"
-											defaultMessage="¡Nombre de usuario requerido!"
-										/>
-									),
-								},
-							]}
-						/>
-						<ProFormText.Password
-							name="password"
-							fieldProps={{
-								size: 'large',
-								prefix: <LockTwoTone className={styles.prefixIcon} />,
-							}}
-							placeholder={intl.formatMessage({
-								id: 'pages.login.password.placeholder',
-								defaultMessage: 'La contraseña es requerida',
-							})}
-							rules={[
-								{
-									required: true,
-									message: (
-										<FormattedMessage
-											id="pages.login.password.required"
-											defaultMessage="¡Contraseña requerida!"
-										/>
-									),
-								},
-							]}
-						/>
-					</>
-				)}
 
-				{status === 'error' && loginType === 'mobile' && !submitting && (
-					<LoginMessage content="验证码错误" />
-				)}
-				{type === 'mobile' && (
-					<>
-						<ProFormText
-							fieldProps={{
-								size: 'large',
-								prefix: <MobileTwoTone className={styles.prefixIcon} />,
-							}}
-							name="mobile"
-							placeholder={intl.formatMessage({
-								id: 'pages.login.phoneNumber.placeholder',
-								defaultMessage: '手机号',
-							})}
-							rules={[
-								{
-									required: true,
-									message: (
-										<FormattedMessage
-											id="pages.login.phoneNumber.required"
-											defaultMessage="请输入手机号！"
-										/>
-									),
-								},
-								{
-									pattern: /^1\d{10}$/,
-									message: (
-										<FormattedMessage
-											id="pages.login.phoneNumber.invalid"
-											defaultMessage="手机号格式错误！"
-										/>
-									),
-								},
-							]}
-						/>
-						<ProFormCaptcha
-							fieldProps={{
-								size: 'large',
-								prefix: <MailTwoTone className={styles.prefixIcon} />,
-							}}
-							captchaProps={{
-								size: 'large',
-							}}
-							placeholder={intl.formatMessage({
-								id: 'pages.login.captcha.placeholder',
-								defaultMessage: '请输入验证码',
-							})}
-							captchaTextRender={(timing, count) => {
-								if (timing) {
-									return `${count} ${intl.formatMessage({
-										id: 'pages.getCaptchaSecondText',
-										defaultMessage: '获取验证码',
-									})}`;
-								}
+				<ProFormText
+					name="userName"
+					fieldProps={{
+						size: 'large',
+						prefix: <UserOutlined className={styles.prefixIcon} />,
+					}}
+					placeholder={intl.formatMessage({
+						id: 'pages.login.username.placeholder',
+						defaultMessage: 'Nombre de usuario requerido',
+					})}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.login.username.required"
+									defaultMessage="¡Nombre de usuario requerido!"
+								/>
+							),
+						},
+					]}
+				/>
+				<ProFormText.Password
+					name="password"
+					fieldProps={{
+						size: 'large',
+						prefix: <LockTwoTone className={styles.prefixIcon} />,
+					}}
+					placeholder={intl.formatMessage({
+						id: 'pages.login.password.placeholder',
+						defaultMessage: 'La contraseña es requerida',
+					})}
+					rules={[
+						{
+							required: true,
+							message: (
+								<FormattedMessage
+									id="pages.login.password.required"
+									defaultMessage="¡Contraseña requerida!"
+								/>
+							),
+						},
+					]}
+				/>
 
-								return intl.formatMessage({
-									id: 'pages.login.phoneLogin.getVerificationCode',
-									defaultMessage: '获取验证码',
-								});
-							}}
-							name="captcha"
-							rules={[
-								{
-									required: true,
-									message: (
-										<FormattedMessage
-											id="pages.login.captcha.required"
-											defaultMessage="请输入验证码！"
-										/>
-									),
-								},
-							]}
-							onGetCaptcha={async (mobile) => {
-								const result = await getFakeCaptcha(mobile);
-
-								if (result === false) {
-									return;
-								}
-
-								message.success('获取验证码成功！验证码为：1234');
-							}}
-						/>
-					</>
+				{status === 'error' && type === 'mobile' && !submitting && (
+					<LoginMessage content="Error" />
 				)}
 				<div
 					style={{
@@ -209,18 +116,17 @@ const Login = (props) => {
 					}}
 				>
 					<ProFormCheckbox noStyle name="autoLogin">
-						<FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-					</ProFormCheckbox>
-					<a
-						style={{
-							float: 'right',
-						}}
-					>
 						<FormattedMessage
-							id="pages.login.forgotPassword"
-							defaultMessage="忘记密码"
+							id="pages.login.rememberMe"
+							defaultMessage="Remember me"
 						/>
-					</a>
+					</ProFormCheckbox>
+					<Link to="/home" style={{ float: 'right' }}>
+						<FormattedMessage
+							id="pages.login.loginAsGuest"
+							defaultMessage="Login As Guest"
+						/>
+					</Link>
 				</div>
 			</ProForm>
 		</div>

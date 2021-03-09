@@ -1,8 +1,8 @@
-import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
+import { getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, useIntl, connect, FormattedMessage } from 'umi';
 import React from 'react';
-import logo from '../assets/logo.svg';
+import logo from '../assets/gg.svg';
 import styles from './UserLayout.less';
 
 const UserLayout = (props) => {
@@ -37,10 +37,10 @@ const UserLayout = (props) => {
 				<div className={styles.content}>
 					<div className={styles.top}>
 						<div className={styles.header}>
-							<Link to="/">
-								<img alt="logo" className={styles.logo} src={logo} />
-								<span className={styles.title}>Ant Design</span>
-							</Link>
+							<img alt="logo" className={styles.logo} src={logo} />
+							<span className={styles.title}>Grupo García</span>
+							{/* <Link to="/user/login">
+							</Link> */}
 						</div>
 						<div className={styles.desc}>
 							<FormattedMessage
@@ -51,7 +51,7 @@ const UserLayout = (props) => {
 					</div>
 					{children}
 				</div>
-				<DefaultFooter />
+				{/* <DefaultFooter /> */}
 			</div>
 		</HelmetProvider>
 	);

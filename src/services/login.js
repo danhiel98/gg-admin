@@ -1,4 +1,3 @@
-import request from '@/utils/request';
 import { app, auth } from '@/utils/firebaseConfig';
 
 export async function accountLogin(params) {
@@ -33,12 +32,4 @@ export async function accountLogin(params) {
 		})
 
 	return result;
-
-	// return request('/api/login/account', {
-	// 	method: 'POST',
-	// 	data: params,
-	// });
-}
-export async function getFakeCaptcha(mobile) {
-	return request(`/api/login/captcha?mobile=${mobile}`);
 }
