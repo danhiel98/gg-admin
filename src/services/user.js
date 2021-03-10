@@ -6,8 +6,12 @@ export async function query() {
 }
 
 export async function queryCurrent() {
-	return request('/api/currentUser');
-	// return auth.currentUser;
+	if (auth.currentUser) {
+		const { displayName, email, phoneNumber, photoURL, uid, refreshToken } = auth.currentUser;
+		return { displayName, email, phoneNumber, photoURL, uid, refreshToken };
+	}
+
+	return null;
 } // Cargar el usuario activo
 
 export async function queryNotices() {

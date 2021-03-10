@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { accountLogin } from '@/services/login';
+import { accountLogin, accountLogout } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
@@ -44,8 +44,9 @@ const Model = {
 			}
 		},
 
-		logout() {
+		*logout({ }, { call }) {
 			const { redirect } = getPageQuery(); // Note: There may be security issues, please note
+			yield call(accountLogout);
 
 			if (window.location.pathname !== '/user/login' && !redirect) {
 				history.replace({

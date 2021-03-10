@@ -33,3 +33,17 @@ export async function accountLogin(params) {
 
 	return result;
 }
+
+export async function accountLogout() {
+	let result = { status: 'Holaaaaaaaaaa' };
+
+	await app.auth().signOut()
+	.then(() => {
+		result.status = 'ok';
+	})
+	.catch(() => {
+		result.status = 'error';
+	});
+
+	return result;
+}

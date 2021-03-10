@@ -1,5 +1,5 @@
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Menu } from 'antd';
 import React from 'react';
 import { history, connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
@@ -49,7 +49,7 @@ class AvatarDropdown extends React.Component {
 				</Menu.Item>
 			</Menu>
 		);
-		return currentUser && currentUser.email ? (
+		return (
 			<HeaderDropdown overlay={menuHeaderDropdown}>
 				<span className={`${styles.action} ${styles.account}`}>
 					<Avatar
@@ -58,20 +58,16 @@ class AvatarDropdown extends React.Component {
 						src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}
 						alt="avatar"
 					/>
-					<span className={`${styles.name} anticon`}>{currentUser.name}</span>
+					<span className={`${styles.name} anticon`}>
+						{
+							currentUser.displayName ||
+							currentUser.email ||
+							'Invitado'
+						}
+					</span>
 				</span>
 			</HeaderDropdown>
-		) : (
-			<span className={`${styles.action} ${styles.account}`}>
-				<Spin
-					size="small"
-					style={{
-						marginLeft: 8,
-						marginRight: 8,
-					}}
-				/>
-			</span>
-		);
+		)
 	}
 }
 
