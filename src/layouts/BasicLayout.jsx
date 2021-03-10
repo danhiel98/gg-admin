@@ -3,7 +3,7 @@
  *
  * @see You can view component api by: https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout, { FooterToolbar, DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout, { FooterToolbar } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { Result, Button } from 'antd';
@@ -37,7 +37,6 @@ const menuDataRender = (menuList) =>
 
 const defaultFooterDom = (
 	<FooterToolbar />
-	// <DefaultFooter />
 );
 
 const BasicLayout = (props) => {
@@ -49,6 +48,7 @@ const BasicLayout = (props) => {
 			pathname: '/',
 		},
 	} = props;
+
 	const menuDataRef = useRef([]);
 	useEffect(() => {
 		if (dispatch) {
@@ -76,6 +76,7 @@ const BasicLayout = (props) => {
 		[location.pathname],
 	);
 	const { formatMessage } = useIntl();
+
 	return (
 		<ProLayout
 			logo={logo}
@@ -127,7 +128,8 @@ const BasicLayout = (props) => {
 	);
 };
 
-export default connect(({ global, settings }) => ({
+export default connect(({ global, settings, user }) => ({
 	collapsed: global.collapsed,
 	settings,
+	// currentUser: user.currentUser
 }))(BasicLayout);

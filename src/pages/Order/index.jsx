@@ -1,10 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio, Row, Col } from 'antd';
+import { Button, message, Drawer } from 'antd';
 import React, { useState, useRef, useCallback } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { useIntl, FormattedMessage, connect } from 'umi';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
@@ -12,6 +11,7 @@ import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
 import renderHTML from 'react-render-html';
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from 'react-images';
+import { isEmpty } from '@/utils/utils';
 
 const handleAdd = async (fields, attachments) => {
 	const hide = message.loading('Agregando');
@@ -61,7 +61,7 @@ const handleRemove = async (selectedRows) => {
 	}
 };
 
-const Order = () => {
+const Order = (props) => {
 	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
 	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
@@ -97,6 +97,7 @@ const Order = () => {
 		}))
 	}
 
+	const { currentUser } = props;
 	const intl = useIntl();
 	const columns = [
 		{
@@ -196,7 +197,10 @@ const Order = () => {
 				return <strong>{currencyFormat(value)}</strong>;
 			},
 		},
-		{
+	];
+
+	if (!isEmpty(currentUser)) {
+		columns.push({
 			title: <FormattedMessage id="pages.order.titleOption" defaultMessage="Option" />,
 			dataIndex: 'option',
 			valueType: 'option',
@@ -219,8 +223,8 @@ const Order = () => {
 					<FormattedMessage id="pages.order.delete" defaultMessage="Delete" />
 				</a>,
 			],
-		},
-	];
+		});
+	}
 
 	return (
 		<PageContainer>
@@ -235,7 +239,7 @@ const Order = () => {
 					labelWidth: 120,
 				}}
 				toolBarRender={() => [
-					<Button
+					!isEmpty(currentUser) && <Button
 						type="primary"
 						key="primary"
 						onClick={() => {
@@ -325,4 +329,6 @@ const Order = () => {
 	);
 };
 
-export default Order;
+export default connect(({ user }) => ({
+	currentUser: user.currentUser,
+}))(Order);

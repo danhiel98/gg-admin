@@ -1,6 +1,6 @@
 import { getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link, useIntl, connect, FormattedMessage } from 'umi';
+import { useIntl, connect, FormattedMessage } from 'umi';
 import React from 'react';
 import logo from '../assets/gg.svg';
 import styles from './UserLayout.less';
@@ -26,6 +26,7 @@ const UserLayout = (props) => {
 		breadcrumb,
 		...props,
 	});
+
 	return (
 		<HelmetProvider>
 			<Helmet>

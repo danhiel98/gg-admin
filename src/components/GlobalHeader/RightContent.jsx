@@ -12,6 +12,7 @@ const ENVTagColor = {
 };
 
 const GlobalHeaderRight = (props) => {
+
 	const { theme, layout } = props;
 	let className = styles.right;
 
@@ -62,3 +63,4 @@ export default connect(({ settings }) => ({
 	theme: settings.navTheme,
 	layout: settings.layout,
 }))(GlobalHeaderRight);
+

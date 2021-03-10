@@ -44,7 +44,6 @@ export async function queryCustomerSelect() {
 		})
 		.catch((error) => error);
 
-	console.log(data);
 	return data;
 }
 
@@ -72,8 +71,6 @@ export async function queryCustomer(params) {
 			});
 		});
 
-	console.log(response);
-	customers.then((r) => console.log(r));
 	return response;
 }
 

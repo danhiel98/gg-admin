@@ -71,7 +71,7 @@ export async function addOrder(params, attachments) {
 				let fileRef = undefined;
 				let fullPath = undefined;
 
-				console.log('Order addes');
+				console.log('Order added');
 				images.forEach((img, idx) => {
 					filename = `${ref.id} - ${zeroPad(idx + 1, 2)}${img.name.substr(img.name.lastIndexOf('.'))}`;
 					fullPath = `images/${filename}`;

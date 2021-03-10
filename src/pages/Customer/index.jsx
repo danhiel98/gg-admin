@@ -1,7 +1,7 @@
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Modal, Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
+import { useIntl, FormattedMessage, connect } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
@@ -14,6 +14,7 @@ import {
 	removeCustomer,
 	queryAvailableDelete,
 } from './service';
+import { isEmpty } from '@/utils/utils';
 
 const { confirm } = Modal;
 
@@ -95,7 +96,7 @@ const verifyDelete = async (record) => {
 	return available;
 };
 
-const TableList = () => {
+const Customer = (props) => {
 	const [createModalVisible, handleModalVisible] = useState(false); // Modal de registro
 	const [updateModalVisible, handleUpdateModalVisible] = useState(false); // Modal de edición
 	const [showDetail, setShowDetail] = useState(false); // Modal de detalle
@@ -104,6 +105,7 @@ const TableList = () => {
 	const [currentRow, setCurrentRow] = useState(); // Registro seleccionado
 	const [selectedRowsState, setSelectedRows] = useState([]);
 
+	const { currentUser } = props;
 	const intl = useIntl();
 	const columns = [
 		{
@@ -178,7 +180,10 @@ const TableList = () => {
 			dataIndex: 'orders_amount',
 			valueType: 'number',
 		},
-		{
+	];
+
+	if (!isEmpty(currentUser)) {
+		columns.push({
 			title: <FormattedMessage id="pages.customer.titleOption" defaultMessage="Título" />,
 			dataIndex: 'option',
 			valueType: 'option',
@@ -221,8 +226,9 @@ const TableList = () => {
 					<FormattedMessage id="pages.customer.delete" defaultMessage="Delete" />
 				</a>,
 			],
-		},
-	];
+		});
+	}
+
 	return (
 		<PageContainer>
 			<ProTable
@@ -236,7 +242,7 @@ const TableList = () => {
 					labelWidth: 120,
 				}}
 				toolBarRender={() => [
-					<Button
+					!isEmpty(currentUser) && <Button
 						type="primary"
 						key="primary"
 						onClick={() => {
@@ -376,4 +382,6 @@ const TableList = () => {
 	);
 };
 
-export default TableList;
+export default connect(({ user }) => ({
+	currentUser: user.currentUser,
+}))(Customer);
