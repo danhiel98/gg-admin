@@ -6,7 +6,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
-import { queryOrder, updateOrder, addOrder, removeOrder } from './service';
+import { queryOrders, updateOrder, addOrder, queryOrder, removeOrder } from './service';
 import { currencyFormat, dateFromTimestamp } from '@/utils/dataFunctions';
 import renderHTML from 'react-render-html';
 import Gallery from 'react-photo-gallery';
@@ -14,19 +14,34 @@ import Carousel, { Modal, ModalGateway } from 'react-images';
 import { isEmpty } from '@/utils/utils';
 
 const handleAdd = async (fields, attachments) => {
-	const hide = message.loading('Agregando');
+	const hide = message.loading('Agregando', 0);
 
 	try {
-		await addOrder({ ...fields }, attachments);
-		hide();
+		let res = await addOrder({ ...fields }, attachments);
 		message.success('¡Registro agregado correctamente!');
 		return true;
 	} catch (error) {
-		hide();
 		message.error('Error al intentar agregar el registro');
 		return false;
+	} finally {
+		hide();
 	}
 };
+
+const handleGet = async (order_id) => {
+	const hide = message.loading('Agregando');
+
+	try {
+		let data = await getOrder(order_id);
+
+		return data;
+	} catch (error) {
+		message.error('Error al obtener el registro');
+	}
+	finally {
+		hide();
+	}
+}
 
 const handleUpdate = async (fields, record) => {
 	const hide = message.loading('Cargando');
@@ -86,15 +101,17 @@ const Order = (props) => {
 	const activeData = (entity) => {
 		setCurrentRow(entity);
 
-		setPhotos(entity.images.map(img => {
-			let obj = {
-				src: img,
-				width: 1,
-				height: 1,
-			}
+		if (entity.images) {
+			setPhotos(entity.images.map(img => {
+				let obj = {
+					src: img,
+					width: 1,
+					height: 1,
+				}
 
-			return obj;
-		}))
+				return obj;
+			}))
+		}
 	}
 
 	const { currentUser } = props;
@@ -123,8 +140,7 @@ const Order = (props) => {
 				return (
 					<a
 						onClick={() => {
-							activeData(entity);
-							setShowDetail(true);
+							console.log(entity);
 						}}
 					>
 						{dom}
@@ -250,7 +266,7 @@ const Order = (props) => {
 						<FormattedMessage id="pages.order.new" defaultMessage="New" />
 					</Button>,
 				]}
-				request={(params, sorter, filter) => queryOrder({ ...params, sorter, filter })}
+				request={(params, sorter, filter) => queryOrders({ ...params, sorter, filter })}
 				columns={columns}
 				rowSelection={{
 					onChange: (_, selectedRows) => {
@@ -267,12 +283,13 @@ const Order = (props) => {
 				onFinish={async (data, attachments) => {
 					const success = await handleAdd(data, attachments);
 
+					console.log(`Success en onFinish: ${success}`);
+
 					if (success) {
 						handleModalVisible(false);
 
-						if (actionRef.current) {
-							actionRef.current.reload();
-						}
+						if (actionRef.current) actionRef.current.reload();
+						
 						return true;
 					}
 				}}
@@ -302,22 +319,33 @@ const Order = (props) => {
 							}}
 							columns={columns}
 						/>
-						<div style={{ border: '1px solid #d7cece', padding: 10 }}>
+						<div style={{ border: '1px solid #d7cece', borderRadius: 5, padding: 15, marginBottom: 20 }}>
 							{renderHTML(currentRow.description)}
 						</div>
 						<div style={{ width: photos.length <= 4 ? 500 : 800, alignItems: 'center' }}>
-							<Gallery margin={20} photos={photos} onClick={openLightbox} />
+							<Gallery
+								margin={20}
+								onClick={openLightbox}
+								photos={photos}
+							/>
 						</div>
 						<ModalGateway>
 							{viewerIsOpen ? (
 								<Modal onClose={closeLightbox}>
 									<Carousel
 										currentIndex={currentImage}
-										views={photos.map((x) => ({
-											...x,
-											srcset: x.srcSet,
-											caption: x.title,
-										}))}
+										views={photos.map(img => {
+
+											let res = {
+												src: img.src,
+												width: img.width - img.width * 0.3,
+												height: img.height - img.height * 0.5
+											}
+
+											// console.log(res);
+
+											return res;
+										})}
 									/>
 								</Modal>
 							) : null}

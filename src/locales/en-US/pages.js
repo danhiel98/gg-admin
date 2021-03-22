@@ -25,7 +25,7 @@ export default {
 	'pages.customer.titleOrdersAmount': 'Orders Amount',
 	'pages.customer.titleType': 'Type',
 	'pages.customer.type.casualType': 'Casual',
-	'pages.customer.type.frequentType': 'Frequent',
+	'pages.customer.type.frequentType': 'Reseller',
 	'pages.customer.titleOption': 'Option',
 	'pages.customer.edit': 'Edit',
 	'pages.customer.delete': 'Delete',
@@ -41,7 +41,7 @@ export default {
 	'pages.customer.Form.customerType.typeLabel': 'Customer Type',
 	'pages.customer.Form.customerType.typeRules': 'Please enter the customer type!',
 	'pages.customer.Form.customerType.casualType': 'Casual',
-	'pages.customer.Form.customerType.frequentType': 'Frequent',
+	'pages.customer.Form.customerType.frequentType': 'Reseller',
 
 	// Pedidos
 	'pages.order.title': 'Enquiry Form',

@@ -9,13 +9,107 @@ import ProForm, {
 } from '@ant-design/pro-form';
 
 import { useIntl, FormattedMessage } from 'umi';
-import 'jodit';
-import 'jodit/build/jodit.min.css';
-import JoditEditor from 'jodit-react';
+// import 'jodit';
+// import 'jodit/build/jodit.min.css';
+import JoditEditor from '@/components/JoditEditor';
 import ImageUploader from 'react-images-upload';
 import { queryCustomerSelect } from '../../Customer/service';
+import { stringToHTML } from '@/utils/utils';
 
 const dateFormat = 'DD-MM-YYYY';
+
+function getConfig(props) {
+	let config = {
+		enableDragAndDropFileToEditor: true,
+		readonly: false,
+		language: 'es',
+		buttons: [
+			'fullsize',
+			'|',
+			'paragraph',
+			'fontsize',
+			'font',
+			'|',
+			'bold',
+			'italic',
+			'strikethrough',
+			'brush',
+			'eraser',
+			'|',
+			'ul',
+			'ol',
+			'align',
+			'|',
+			'link',
+			'hr',
+			'table',
+			'|',
+			'undo',
+			'redo',
+			'selectall',
+			'|',
+			'preview',
+		],
+		buttonsMD: [
+			'fullsize',
+			'|',
+			'paragraph',
+			'fontsize',
+			'font',
+			'|',
+			'bold',
+			'italic',
+			'strikethrough',
+			'brush',
+			'eraser',
+			'|',
+			'ul',
+			'ol',
+			'align',
+			'|',
+			'link',
+			'hr',
+			'table',
+			'|',
+			'undo',
+			'redo',
+			'selectall',
+			'|',
+			'preview',
+		],
+		buttonsXS: [
+			'fullsize',
+			'|',
+			'paragraph',
+			'fontsize',
+			'font',
+			'|',
+			'bold',
+			'italic',
+			'strikethrough',
+			'brush',
+			'eraser',
+			'|',
+			'ul',
+			'ol',
+			'align',
+			'|',
+			'link',
+			'hr',
+			'table',
+			'|',
+			'undo',
+			'redo',
+			'|',
+			'preview',
+		],
+		uploader: {
+			insertImageAsBase64URI: true,
+		},
+	}
+
+	return config;
+}
 
 const CreateForm = (props) => {
 	const formRef = useRef();
@@ -27,15 +121,24 @@ const CreateForm = (props) => {
 	const [images, setImages] = useState([]);
 
 	const resetFields = () => {
-		formRef.current.setFieldsValue({
-			title: 'Order Title',
-			customer_id: customers.length > 0 ? customers[0].value : null,
-			total: 100,
-			first_payment: 50,
-			received_at: '2020-02-09',
-			deadline: '2020-02-20',
-			item_types: ['Azulejos', 'Gorras']
-		});
+		// formRef.current.setFieldsValue({
+		// 	title: null,
+		// 	customer_id: null,
+		// 	total: null,
+		// 	first_payment: null,
+		// 	received_at: null,
+		// 	deadline: null,
+		// 	item_types: null
+		// });
+		// formRef.current.setFieldsValue({
+		// 	title: 'Order Title',
+		// 	customer_id: customers.length > 0 ? customers[0].value : null,
+		// 	total: 100,
+		// 	first_payment: 50,
+		// 	received_at: '2020-02-09',
+		// 	deadline: '2020-02-20',
+		// 	item_types: ['Azulejos', 'Gorras']
+		// });
 	};
 
 	useEffect(() => {
@@ -74,11 +177,13 @@ const CreateForm = (props) => {
 				}
 			}}
 			onFinish={(value) => {
+				let html = stringToHTML(content);
+
 				try {
-					if (!content.innerText) throw new Error('¡Debe introducir una descripción!');
+					if (!html.innerText) throw new Error('¡Debe introducir una descripción!');
 					if (value.total < value.first_payment) throw new Error('¡El total no debe ser menor al adelanto');
 
-					props.onFinish({ ...value, description: content.innerHTML }, { images });
+					props.onFinish({ ...value, description: html.innerHTML }, { images });
 				} catch (error) {
 					message.error(error.message);
 				}
@@ -327,98 +432,9 @@ const CreateForm = (props) => {
 			</ProForm.Group>
 			<JoditEditor
 				ref={editorRef}
-				value={content.innerHTML}
-				config={{
-					enableDragAndDropFileToEditor: true,
-					readonly: false,
-					language: 'es',
-					buttons: [
-						'fullsize',
-						'|',
-						'paragraph',
-						'fontsize',
-						'font',
-						'|',
-						'bold',
-						'italic',
-						'strikethrough',
-						'brush',
-						'eraser',
-						'|',
-						'ul',
-						'ol',
-						'align',
-						'|',
-						'link',
-						'hr',
-						'table',
-						'|',
-						'undo',
-						'redo',
-						'selectall',
-						'|',
-						'preview',
-					],
-					buttonsMD: [
-						'fullsize',
-						'|',
-						'paragraph',
-						'fontsize',
-						'font',
-						'|',
-						'bold',
-						'italic',
-						'strikethrough',
-						'brush',
-						'eraser',
-						'|',
-						'ul',
-						'ol',
-						'align',
-						'|',
-						'link',
-						'hr',
-						'table',
-						'|',
-						'undo',
-						'redo',
-						'selectall',
-						'|',
-						'preview',
-					],
-					buttonsXS: [
-						'fullsize',
-						'|',
-						'paragraph',
-						'fontsize',
-						'font',
-						'|',
-						'bold',
-						'italic',
-						'strikethrough',
-						'brush',
-						'eraser',
-						'|',
-						'ul',
-						'ol',
-						'align',
-						'|',
-						'link',
-						'hr',
-						'table',
-						'|',
-						'undo',
-						'redo',
-						'|',
-						'preview',
-					],
-					uploader: {
-						insertImageAsBase64URI: true,
-					},
-				}}
-				onBlur={(ev) => {
-					setContent(ev.target);
-				}}
+				value={content ? content.innerHTML : '' }
+				config={getConfig()}
+				onBlur={(data) => setContent(data)}
 			/>
 			<ProForm.Group style={{ textAlign: 'center' }}>
 				<ImageUploader

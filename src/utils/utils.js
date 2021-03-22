@@ -25,4 +25,12 @@ export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0');
 
+export const fileExtension = (filename) => filename.substr(filename.lastIndexOf('.'));
+
 export const isEmpty = (obj) => JSON.stringify(obj) === JSON.stringify({});
+
+export const stringToHTML = (str) => {
+	var parser = new DOMParser();
+
+	return parser.parseFromString(str, 'text/html').body;
+};

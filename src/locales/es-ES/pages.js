@@ -24,8 +24,8 @@ export default {
 	'pages.customer.titlePhoneNumber': 'Teléfono',
 	'pages.customer.titleOrdersAmount': 'Cant. Pedidos',
 	'pages.customer.titleType': 'Tipo',
-	'pages.customer.type.casualType': 'Casual',
-	'pages.customer.type.frequentType': 'Frecuente',
+	'pages.customer.type.casualType': 'Ocasional',
+	'pages.customer.type.frequentType': 'Revendedor',
 	'pages.customer.titleOption': 'Opciones',
 	'pages.customer.edit': 'Editar',
 	'pages.customer.delete': 'Eliminar',
@@ -40,8 +40,8 @@ export default {
 	'pages.customer.Form.customerAddress.addressRules': '¡Por favor, introduzca la dirección!',
 	'pages.customer.Form.customerType.typeLabel': 'Tipo de cliente',
 	'pages.customer.Form.customerType.typeRules': '¡Por favor, introducir el tipo de cliente!',
-	'pages.customer.Form.customerType.casualType': 'Casual',
-	'pages.customer.Form.customerType.frequentType': 'Frecuente',
+	'pages.customer.Form.customerType.casualType': 'Ocasional',
+	'pages.customer.Form.customerType.frequentType': 'Revendedor',
 
 	// Pedidos
 	'pages.order.title': 'Consulta de pedidos',
